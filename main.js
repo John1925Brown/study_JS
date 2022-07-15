@@ -50,3 +50,17 @@ myVar = Symbol();
 console.log(typeof myVar);
 myVar = {};
 console.log(typeof myVar);
+
+let str = "Hello, my Friends!";
+console.log(str.length);
+console.log(str.toUpperCase());
+console.log(str.toLowerCase());
+console.log(str[15]);
+console.log(str.substring(7));
+console.log(str.substring(7, 17));
+console.log(str.slice(7));
+console.log(str.slice(-9));
+console.log(str.substr(7, 17));
+console.log(str.indexOf('Friends'));
+console.log(str.replace('my Friends', 'World'));
+console.log(str.split(' '));
