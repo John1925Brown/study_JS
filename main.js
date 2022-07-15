@@ -35,3 +35,18 @@ div.classList.toggle('blue');
 
 title.style.textDecoration = 'underline';
 
+let myVar;
+myVar = 3;
+console.log(typeof myVar);
+myVar = 'string';
+console.log(typeof myVar);
+myVar = true;
+console.log(typeof myVar);
+myVar = undefined;
+console.log(typeof myVar);
+myVar = null;
+console.log(typeof myVar);
+myVar = Symbol();
+console.log(typeof myVar);
+myVar = {};
+console.log(typeof myVar);
