@@ -35,6 +35,8 @@ div.classList.toggle('blue');
 
 title.style.textDecoration = 'underline';
 
+
+// ---------------------------------Lesson 2
 let myVar;
 myVar = 3;
 console.log(typeof myVar);
@@ -64,3 +66,34 @@ console.log(str.substr(7, 17));
 console.log(str.indexOf('Friends'));
 console.log(str.replace('my Friends', 'World'));
 console.log(str.split(' '));
+
+//---------------------------------------Lesson 2 hw
+let money = 2000;
+let income = "freelance";
+let addExpenses = "internet, taxi, cigarets";
+let deposit = false;
+let mission = 5000;
+let period = 5;
+
+console.log(typeof (money));
+console.log(typeof (income));
+console.log(typeof (deposit));
+console.log("Период равен " + period + " месяцев." + " Цель заработать " + mission + " $.");
+addExpenses.toLowerCase();
+console.log(addExpenses.split(', '));
+let budgetDay = 3000 / 30; // Нужно ли применять метод math в этом случае?
+console.log(budgetDay);
+
+
+// -------------------------Lesson 2 hw_h
+let num = 266219;
+array = ('' + num).split('');
+console.log(array);
+let total;
+for (i = 0; i < num.length; i++) {
+  total = array[i] * array[i + 1];
+}; //-------------------------Не работает-----Должен перемножать каждую i-тую цифру из числа на каждую i-тую + 1(следующую)
+console.log(total);
+total *= total * total;
+totalStr = total.toString();
+console.log(totalStr.substring(0, 1)); // Не работает---Должен выводить 1 и 2 элементы строки, но выводит только второй(Проверял, когда задавал total какое либо значение больше 0)
