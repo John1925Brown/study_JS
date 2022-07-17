@@ -54,18 +54,18 @@ myVar = {};
 console.log(typeof myVar);
 
 let str = "Hello, my Friends!";
-console.log(str.length);
-console.log(str.toUpperCase());
-console.log(str.toLowerCase());
-console.log(str[15]);
-console.log(str.substring(7));
-console.log(str.substring(7, 17));
-console.log(str.slice(7));
-console.log(str.slice(-9));
+console.log(str.length); // Количество символов строки
+console.log(str.toUpperCase()); //Сделать все буквы в верхнем регистре
+console.log(str.toLowerCase()); // Сделать все буквы в нижнем регистре
+console.log(str[15]); // Вернуть из строки 15й символ
+console.log(str.substring(7)); // Вернуть из строки все символы с 7го
+console.log(str.substring(7, 17)); // Вернуть из строки все символы с 7 по 17
+console.log(str.slice(7)); // Вернуть из строки все символы с 7го
+console.log(str.slice(-9)); // Вернуть из строки все символы до 9го
 console.log(str.substr(7, 17));
-console.log(str.indexOf('Friends'));
-console.log(str.replace('my Friends', 'World'));
-console.log(str.split(' '));
+console.log(str.indexOf('Friends')); // Вернет первый символ с указанной подстроки
+console.log(str.replace('my Friends', 'World')); // Поменять местами элементы в строке
+console.log(str.split(' ')); // Создает строчный массив. Значение в кавычках берет за метки, которые его разделят
 
 //---------------------------------------Lesson 2 hw
 let money = 2000;
@@ -81,13 +81,14 @@ console.log(typeof (deposit));
 console.log("Период равен " + period + " месяцев." + " Цель заработать " + mission + " $.");
 addExpenses.toLowerCase();
 console.log(addExpenses.split(', '));
-let budgetDay = 3000 / 30; // Нужно ли применять метод math в этом случае?
+let budgetDay = 3000 / 30;
 console.log(budgetDay);
 
 
 // -------------------------Lesson 2 hw_h
-let num = 266219;
-array = ('' + num).split('');
+/*
+let num = 266219,
+  array = ('' + num).split('');
 console.log(array);
 let total;
 for (i = 0; i < num.length; i++) {
@@ -97,3 +98,18 @@ console.log(total);
 total *= total * total;
 totalStr = total.toString();
 console.log(totalStr.substring(0, 1)); // Не работает---Должен выводить 1 и 2 элементы строки, но выводит только второй(Проверял, когда задавал total какое либо значение больше 0)
+*/
+
+let num = 266219;
+let array = String(num).split('');
+console.log(array);
+let total = 1;
+for (i = 0; i < array.length; i++) { // Что-то я тогда фигню придумал. Решил, что нужно использовать длину и единицы массива)
+  total *= array[i];
+}
+total *= total * total;
+let strTotal = String(total);
+console.log(strTotal.substring(0, 2));
+
+
+
