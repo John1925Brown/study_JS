@@ -86,20 +86,6 @@ console.log(budgetDay);
 
 
 // -------------------------Lesson 2 hw_h
-/*
-let num = 266219,
-  array = ('' + num).split('');
-console.log(array);
-let total;
-for (i = 0; i < num.length; i++) {
-  total = array[i] * array[i + 1];
-}; //-------------------------Не работает-----Должен перемножать каждую i-тую цифру из числа на каждую i-тую + 1(следующую)
-console.log(total);
-total *= total * total;
-totalStr = total.toString();
-console.log(totalStr.substring(0, 1)); // Не работает---Должен выводить 1 и 2 элементы строки, но выводит только второй(Проверял, когда задавал total какое либо значение больше 0)
-*/
-
 let num = 266219;
 let array = String(num).split('');
 console.log(array);
