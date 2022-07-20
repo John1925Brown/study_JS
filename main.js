@@ -168,7 +168,7 @@ let expenses1 = prompt('Введите обязательную статью р�
 let expenses2 = prompt('Введите обязательную статью расходов?');
 let amount1 = prompt('Во сколько это обойдется?');
 let amount2 = prompt('Во сколько это обойдется?');
-let budgetMonth = Number(money) - (Number(expenses1) + Number(expenses2) + Number(amount1) + Number(amount2));
+let budgetMonth = parseFloat(money) - (parseFloat(expenses1) + parseFloat(expenses2) + parseFloat(amount1) + parseFloat(amount2));
 console.log(budgetMonth);
 
 let monthBeforeMisson = Math.ceil(mission / budgetMonth);
