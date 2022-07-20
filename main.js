@@ -1,3 +1,4 @@
+'use strict'
 /*
 function printHello(a, b, c, d) {
   return a + b + c
@@ -67,7 +68,7 @@ console.log(str.substr(7, 17));
 console.log(str.indexOf('Friends')); // Вернет первый символ с указанной подстроки
 console.log(str.replace('my Friends', 'World')); // Поменять местами элементы в строке
 console.log(str.split(' ')); // Создает строчный массив. Значение в кавычках берет за метки, которые его разделят
-
+*/
 //---------------------------------------Lesson 2 hw
 let money = 2000;
 let income = "freelance";
@@ -85,7 +86,7 @@ console.log(addExpenses.split(', '));
 let budgetDay = 3000 / 30;
 console.log(budgetDay);
 
-
+/*
 // -------------------------Lesson 2 hw_h
 let num = 266219;
 let array = String(num).split('');
@@ -98,7 +99,7 @@ total *= total * total;
 let strTotal = String(total);
 console.log(strTotal.substring(0, 2));
 */
-
+/*
 //--------------------------Lesson 3
 'use strict' //Строгий режим. Код ведет себя несколько иначе: появляются ошибки, когда требуется дополнительная отладка
 let question = confirm('Тебе есть 18 лет ?');
@@ -158,3 +159,29 @@ switch (n) {
 }                                //Заменяет if-else. Break останавливает выполнение команд дальше.
 
 let result = true ? 1 : 0; // Тернарный оператор сравнения. При true выполняется первая команда и иначе
+*/
+// ----------------------------------------Lesson3_hw
+money = prompt('Ваш ежемесячный доход?');
+addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
+deposit = confirm('Есть ли у вас депозит в банке?');
+let expenses1 = prompt('Введите обязательную статью расходов?');
+let expenses2 = prompt('Введите обязательную статью расходов?');
+let amount1 = prompt('Во сколько это обойдется?');
+let amount2 = prompt('Во сколько это обойдется?');
+let budgetMonth = Number(money) - (Number(expenses1) + Number(expenses2) + Number(amount1) + Number(amount2));
+console.log(budgetMonth);
+
+let monthBeforeMisson = Math.ceil(mission / budgetMonth);
+budgetDay = Math.floor(budgetMonth / 30);
+console.log(budgetDay);
+if (budgetDay >= 1200) {
+  console.log('У вас высокий уровень дохода');
+} else if (budgetDay >= 600) {
+  console.log('У вас средний уровень дохода');
+} else if (budgetDay >= 0) {
+  console.log('К сожалению у вас уровень дохода ниже среднего');
+} else {
+  console.log('Что то пошло не так');
+}  // Через else/if немного удобнее было делать. Если делать через switch, то нужно прописывать много кейсов или можно один?
+
+
