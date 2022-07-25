@@ -24,3 +24,6 @@ array['ru'] = ['ru', 'понедельник, втроник, среда'];
 array['en'] = ['en', 'mon, thu, th'];
 
 console.log(array[lang]);
+
+let namePerson = prompt('Введите имя человека, чтобы узнать кто он?');
+namePerson == 'Артем' ? console.log('Директор') : namePerson == 'Максим' ? console.log('Преподаватель') : console.log('Студент');
