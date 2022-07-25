@@ -18,3 +18,9 @@ switch (lang) {
   default:
     console.log('Вы ввели неверное значение. Допустимо лишь ru, en!');
 }
+// ------------------- Решение через многомерный массив
+const array = [];
+array['ru'] = ['ru', 'понедельник, втроник, среда'];
+array['en'] = ['en', 'mon, thu, th'];
+
+console.log(array[lang]);
