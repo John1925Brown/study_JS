@@ -160,7 +160,8 @@ switch (n) {
 
 let result = true ? 1 : 0; // Тернарный оператор сравнения. При true выполняется первая команда и иначе
 */
-// ----------------------------------------Lesson3_hw
+// ----------------------------------------Lesson3_hw 
+/*
 money = prompt('Ваш ежемесячный доход?');
 addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
 deposit = confirm('Есть ли у вас депозит в банке?');
@@ -183,5 +184,38 @@ if (budgetDay >= 1200) {
 } else {
   console.log('Что то пошло не так');
 }  // Через else/if немного удобнее было делать. Если делать через switch, то нужно прописывать много кейсов или можно один?
+*/
 
+// ----------------------------------------Lesson3_hw_h
+
+let lang = prompt('На каком языке вывести дни недели? Введите ru для русского или en для английского!');
+/* -----------Решение через if/else
+if (lang == 'ru') {
+  console.log('Понедельник, вторник, среда, четверг, пятница, суббота, воскресенье');
+} else if (lang == 'en') {
+  console.log('Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday');
+} else {
+  console.log('Вы ввели неверное значение. Допустимо лишь ru, en!');
+} */
+
+/* ------------------------Решение через switch
+switch (lang) {
+  case 'ru':
+    console.log('Понедельник, вторник, среда, четверг, пятница, суббота, воскресенье');
+    break;
+  case 'en':
+    console.log('Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday');
+    break;
+  default:
+    console.log('Вы ввели неверное значение. Допустимо лишь ru, en!');
+}
+*/
+
+/* ------------------- Решение через тернарные операторы
+lang == 'ru' ? console.log('Понедельник, вторник, среда, четверг, пятница, суббота, воскресенье') : lang == 'en' ? console.log('Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday') : console.log('Вы ввели неверное значение. Допустимо лишь ru, en!');
+*/
+/*
+let namePerson = prompt('Введите имя человека, чтобы узнать кто он?');
+namePerson == 'Артем' ? console.log('Директор') : namePerson == 'Максим' ? console.log('Преподаватель') : console.log('Студент');
+*/
 
