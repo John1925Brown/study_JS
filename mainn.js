@@ -70,6 +70,7 @@ console.log(str.replace('my Friends', 'World')); // Поменять места�
 console.log(str.split(' ')); // Создает строчный массив. Значение в кавычках берет за метки, которые его разделят
 */
 //---------------------------------------Lesson 2 hw
+/*
 let money = 2000;
 let income = "freelance";
 let addExpenses = "internet, taxi, cigarets";
@@ -85,7 +86,7 @@ addExpenses.toLowerCase();
 console.log(addExpenses.split(', '));
 let budgetDay = 3000 / 30;
 console.log(budgetDay);
-
+*/
 /*
 // -------------------------Lesson 2 hw_h
 let num = 266219;
