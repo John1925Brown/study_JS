@@ -5,13 +5,13 @@ let deposit = false;
 let mission = 5000;
 let period = 5;
 
-money = prompt('Ваш ежемесячный доход?');
+money = parseFloat(prompt('Ваш ежемесячный доход?'));
 addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
 deposit = confirm('Есть ли у вас депозит в банке?');
-let expenses1 = prompt('Введите обязательную статью расходов?');
-let expenses2 = prompt('Введите обязательную статью расходов?');
-let amount1 = prompt('Во сколько это обойдется?');
-let amount2 = prompt('Во сколько это обойдется?');
+let expenses1 = parseFloat(prompt('Введите обязательную статью расходов?'));
+let expenses2 = parseFloat(prompt('Введите обязательную статью расходов?'));
+let amount1 = parseFloat(prompt('Во сколько это обойдется?'));
+let amount2 = parseFloat(prompt('Во сколько это обойдется?'));
 
 // ----------------------------- Начало lesson_4_hw
 
@@ -31,26 +31,92 @@ let amount2 = prompt('Во сколько это обойдется?');
  - вызов функции getStatusIncome
 */
 
-const getExpensesMonth = function () {
-  return parseFloat(expenses1) + parseFloat(expenses2) + parseFloat(amount1) + parseFloat(amount2);
+let showTypeOf = function (data) {
+  console.log(data, typeof (data));
+};
+showTypeOf(money);
+showTypeOf(income);
+showTypeOf(deposit);
+
+
+
+const getExpensesMonth = function (a, b, c, d) {
+  return a + b + c + d;
 };
 
 getExpensesMonth(expenses1, expenses2, amount1, amount2);
 
-const getAccumulatedMonth = function () {
-  return parseFloat(money) - (parseFloat(expenses1) + parseFloat(expenses2) + parseFloat(amount1) + parseFloat(amount2));
+const getAccumulatedMonth = function (a, b, c, d, e) {
+  return a - b - c - d - e;
 };
 
 getAccumulatedMonth(money, expenses1, expenses2, amount1, amount2);
 
 let accumulatedMonth = getAccumulatedMonth(money, expenses1, expenses2, amount1, amount2);
 
-const getTargetMonth = function () {
-  return mission / accumulatedMonth;
+const getTargetMonth = function (a, b) {
+  return a / b;
 };
 
 getTargetMonth(mission, accumulatedMonth);
 
-let budgetDay = accumulatedMonthpe / 30;
+let budgetDay = accumulatedMonth / 30;
+
+let getStatusIncome = function () {
+  if (budgetDay >= 1200) {
+    return ('У вас высокий уровень дохода');
+  } else if (budgetDay >= 600) {
+    return ('У вас средний уровень дохода');
+  } else if (budgetDay >= 0) {
+    return ('К сожалению у вас уровень дохода ниже среднего');
+  } else {
+    return ('Что то пошло не так');
+  }
+};
+console.log(getStatusIncome());
 
 
+// ---------------------------hw_hard
+
+/* 
+Создайте функцию, которая принимает 1 аргумент (название произвольное)
+— Если в качестве аргумента передана не строка - функция оповещает об этом пользователя
+— В полученной (как аргумент) строке функция должна убрать все пробелы в начале и в конце
+— Если строка более 30 знаков - то после 30го символа часть текста скрывается и вместо них появляются три точки (...)
+*/
+
+let num = ' 52342454646521312312121231231231231234456465465654546546546546545465465465465465465465465465456465345 ';
+
+let ifString = function (a) {
+  if (typeof a === 'string') {
+    return 'Строка';
+  }
+};
+
+console.log(ifString(num));
+
+let cut = function (a) {
+  let arr = a.split(' ');
+  return (String(arr[1]));
+};
+
+console.log(cut(num));
+
+let hide = function (a) {
+  if (a.length > 30) {
+    return (a.slice(-29) + '...');
+  } else {
+    return a;
+  }
+};
+
+console.log(hide(num));
+
+let func = function (a, callback, callback, callback) {
+  ifString(a);
+  cut(a);
+  hide(a);
+  return a;
+};
+
+console.log(func(num, ifString(num), cut(num), hide(num)));
