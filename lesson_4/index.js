@@ -40,22 +40,22 @@ showTypeOf(deposit);
 
 
 
-const getExpensesMonth = function (a, b, c, d) {
-  return a + b + c + d;
+const getExpensesMonth = function (expenceFirst, expenceSecond, expenceThird, expenceFourth) {
+  return expenceFirst + expenceSecond + expenceThird + expenceFourth;
 };
 
 getExpensesMonth(expenses1, expenses2, amount1, amount2);
 
-const getAccumulatedMonth = function (a, b, c, d, e) {
-  return a - b - c - d - e;
+const getAccumulatedMonth = function (budget, expenceFirst, expenceSecond, expenceThird, expenceFourth) {
+  return budget - expenceFirst - expenceSecond - expenceThird - expenceFourth;
 };
 
 getAccumulatedMonth(money, expenses1, expenses2, amount1, amount2);
 
 let accumulatedMonth = getAccumulatedMonth(money, expenses1, expenses2, amount1, amount2);
 
-const getTargetMonth = function (a, b) {
-  return a / b;
+const getTargetMonth = function (target, accumulatedPerMonth) {
+  return target / accumulatedPerMonth;
 };
 
 getTargetMonth(mission, accumulatedMonth);
@@ -87,36 +87,37 @@ console.log(getStatusIncome());
 
 let num = ' 52342454646521312312121231231231231234456465465654546546546546545465465465465465465465465465456465345 ';
 
-let ifString = function (a) {
-  if (typeof a === 'string') {
-    return 'Строка';
-  }
+let isString = function (a) {
+  if (typeof a !== 'string') {
+    return 'Это не строка!';
+  };
 };
 
-console.log(ifString(num));
+console.log(isString(num));
 
-let cut = function (a) {
-  let arr = a.split(' ');
-  return (String(arr[1]));
+let cut = function (word) {
+  let arr = word.trim();
+  return (String(arr));
 };
 
 console.log(cut(num));
 
-let hide = function (a) {
-  if (a.length > 30) {
-    return (a.slice(-29) + '...');
+let hideNum = function (word) {
+  String(word);
+  if (word.length > 30) {
+    return word.split(0, 30) + '...';
   } else {
-    return a;
+    return word;
   }
 };
 
-console.log(hide(num));
+console.log(hideNum(num));
 
-let func = function (a, callback, callback, callback) {
-  ifString(a);
-  cut(a);
-  hide(a);
-  return a;
+let func = function (a, callbackString, callbackCut, callbackHide) {
+  a = callbackString(a);
+  a = callbackCut(a);
+  a = callbackHide(a);
+  return callbackString(a), callbackCut(a), callbackHide(a);
 };
 
-console.log(func(num, ifString(num), cut(num), hide(num)));
+console.log(func(num, isString(num), cut(num), hideNum(num)));
