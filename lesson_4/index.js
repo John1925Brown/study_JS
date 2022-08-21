@@ -85,39 +85,15 @@ console.log(getStatusIncome());
 — Если строка более 30 знаков - то после 30го символа часть текста скрывается и вместо них появляются три точки (...)
 */
 
-let num = ' 52342454646521312312121231231231231234456465465654546546546546545465465465465465465465465465456465345 ';
-
-let isString = function (a) {
-  if (typeof a !== 'string') {
-    return 'Это не строка!';
-  };
-};
-
-console.log(isString(num));
-
-let cut = function (word) {
-  let arr = word.trim();
-  return (String(arr));
-};
-
-console.log(cut(num));
-
-let hideNum = function (word) {
-  String(word);
-  if (word.length > 30) {
-    return word.split(0, 30) + '...';
+let string = ' 4561561 56464   ';
+let result = function (str) {
+  if (typeof str != 'string') {
+    console.log('Не строка');
+  } else if (str.length && str.length > 30) {
+    return str.trim().slice(0, 30) + '...';
   } else {
-    return word;
+    return str.trim();
   }
 };
 
-console.log(hideNum(num));
-
-let func = function (a, callbackString, callbackCut, callbackHide) {
-  a = callbackString(a);
-  a = callbackCut(a);
-  a = callbackHide(a);
-  return callbackString(a), callbackCut(a), callbackHide(a);
-};
-
-console.log(func(num, isString(num), cut(num), hideNum(num)));
+console.log(result(string));
