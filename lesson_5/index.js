@@ -1,44 +1,47 @@
 // Было до урока 5
-let money = 2000;
+let isNumber = function (n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+};
+
+let money;
 let income = "freelance";
 let addExpenses = "internet, taxi, cigarets";
 let deposit = false;
 let mission = 5000;
 let period = 5;
 
-money = parseFloat(prompt('Ваш ежемесячный доход?'));
+let start = function () {
+  money = parseFloat(prompt('Ваш ежемесячный доход?'));
+  while (!isNumber(money)) {
+    money = parseFloat(prompt('Ваш ежемесячный доход?'));
+  }
+};
+
+start();
+
 addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
 deposit = confirm('Есть ли у вас депозит в банке?');
-let expenses1 = parseFloat(prompt('Введите обязательную статью расходов?'));
-let expenses2 = parseFloat(prompt('Введите обязательную статью расходов?'));
-let amount1 = parseFloat(prompt('Во сколько это обойдется?'));
-let amount2 = parseFloat(prompt('Во сколько это обойдется?'));
 
-let showTypeOf = function (data) {
-  console.log(data, typeof (data));
-};
-showTypeOf(money);
-showTypeOf(income);
-showTypeOf(deposit);
-
-
-
-const getExpensesMonth = function (expenceFirst, expenceSecond, expenceThird, expenceFourth) {
-  return expenceFirst + expenceSecond + expenceThird + expenceFourth;
+const getExpensesMonth = function () {
+  let sum = 0;
+  for (let i = 0; i < 4; i++) {
+    sum += parseFloat(prompt('Введите обязательную статью расходов?'));
+  }
+  return sum;
 };
 
-getExpensesMonth(expenses1, expenses2, amount1, amount2);
+let expencesAmount = getExpensesMonth();
 
-const getAccumulatedMonth = function (budget, expenceFirst, expenceSecond, expenceThird, expenceFourth) {
-  return budget - expenceFirst - expenceSecond - expenceThird - expenceFourth;
+console.log('Расходы за месяц:' + expencesAmount);
+
+const getAccumulatedMonth = function () {
+  return money - expencesAmount;
 };
 
-getAccumulatedMonth(money, expenses1, expenses2, amount1, amount2);
+let accumulatedMonth = getAccumulatedMonth();
 
-let accumulatedMonth = getAccumulatedMonth(money, expenses1, expenses2, amount1, amount2);
-
-const getTargetMonth = function (target, accumulatedPerMonth) {
-  return target / accumulatedPerMonth;
+const getTargetMonth = function () {
+  return mission / accumulatedMonth;
 };
 
 getTargetMonth(mission, accumulatedMonth);
