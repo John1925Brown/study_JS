@@ -11,10 +11,10 @@ let mission = 5000;
 let period = 5;
 
 let start = function () {
-  money = parseFloat(prompt('Ваш ежемесячный доход?'));
-  while (!isNumber(money)) {
+  do {
     money = parseFloat(prompt('Ваш ежемесячный доход?'));
   }
+  while (!isNumber(money));
 };
 
 start();
@@ -24,8 +24,13 @@ deposit = confirm('Есть ли у вас депозит в банке?');
 
 const getExpensesMonth = function () {
   let sum = 0;
+  let check;
   for (let i = 0; i < 4; i++) {
-    sum += parseFloat(prompt('Введите обязательную статью расходов?'));
+    do {
+      check = prompt('Во сколько обойдутся расходы?');
+    }
+    while (!isNumber(check));
+    sum += +check;
   }
   return sum;
 };
@@ -41,7 +46,11 @@ const getAccumulatedMonth = function () {
 let accumulatedMonth = getAccumulatedMonth();
 
 const getTargetMonth = function () {
-  return mission / accumulatedMonth;
+  if (mission / accumulatedMonth > 0) {
+    return mission / accumulatedMonth;
+  } else {
+    return 'Цель не будет достигнута';
+  }
 };
 
 getTargetMonth(mission, accumulatedMonth);
@@ -63,3 +72,7 @@ console.log(getStatusIncome());
 
 // Было до урока 5
 
+// -----------------------Lesson_5_hw
+// 1) Переписать функцию start циклом do while
+// 2) Добавить проверку что введённые данные являются числом, которые мы получаем на вопрос 'Во сколько это обойдется?’ в функции  getExpensesMonth
+// 3) Если getTargetMonth возвращает нам отрицательное значение, то вместо “Цель будет достигнута” необходимо выводить “Цель не будет достигнута”
