@@ -46,10 +46,10 @@ const getAccumulatedMonth = function () {
 let accumulatedMonth = getAccumulatedMonth();
 
 const getTargetMonth = function () {
-  if (mission / accumulatedMonth > 0) {
-    return mission / accumulatedMonth;
-  } else {
+  if (mission / accumulatedMonth < 0) {
     return 'Цель не будет достигнута';
+  } else {
+    return mission / accumulatedMonth;
   }
 };
 
@@ -76,3 +76,5 @@ console.log(getStatusIncome());
 // 1) Переписать функцию start циклом do while
 // 2) Добавить проверку что введённые данные являются числом, которые мы получаем на вопрос 'Во сколько это обойдется?’ в функции  getExpensesMonth
 // 3) Если getTargetMonth возвращает нам отрицательное значение, то вместо “Цель будет достигнута” необходимо выводить “Цель не будет достигнута”
+
+
