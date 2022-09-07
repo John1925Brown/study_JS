@@ -53,7 +53,7 @@ const getTargetMonth = function () {
   }
 };
 
-getTargetMonth(mission, accumulatedMonth);
+getTargetMonth();
 
 let budgetDay = accumulatedMonth / 30;
 
@@ -78,3 +78,48 @@ console.log(getStatusIncome());
 // 3) Если getTargetMonth возвращает нам отрицательное значение, то вместо “Цель будет достигнута” необходимо выводить “Цель не будет достигнута”
 
 
+// -----------------------------lesson5_hwHard
+
+// 1) Создать массив arr = []
+// — Записать в него 7 любых многозначных чисел в виде строк
+// — Вывести в консоль только те, что начинаются с цифры 2 или 4 (Должны присутствовать в массиве)
+
+// 2) Вывести в столбик все простые числа от 1 до 100 (сделать при помощи цикла)
+// — Рядом с каждым числом написать оба делителя данного числа
+
+// let array = arr.filter((element) => element.startsWith('2') || element.startsWith('4'));
+
+// console.log(array);
+
+let arr = ['233', '4', '0', '2322', '5555', '44.2', '1112313'];
+function isStartNum(array) {
+  let result = [];
+  for (let i = 0; i < array.length; i++) {
+    if (array[i].length < 2) {
+    } else {
+      if (array[i][0] === '2' || array[i][0] === '4') {
+        result.push(arr[i]);
+      };
+    }
+  }
+  return result;
+}
+
+console.log(isStartNum(arr));
+
+
+function isPrimeFunc(num) {
+  for (let i = 1; i < num; i++) {
+    let isPrime = true;
+    for (let k = 2; k < i; k++) {
+      if (i % k === 0) {
+        isPrime = false;
+      };
+    }
+    if (isPrime) {
+      console.log(i);
+    }
+  }
+}
+
+isPrimeFunc(100);
