@@ -10,30 +10,59 @@
 // Программа должны быть выполнена с помощью рекурсии, без единого цикла.
 // Загаданное число должно храниться «в замыкании»
 
-let randNumber = Math.round(Math.random() * 100); // Как я понял, если переменная обхъявлена глобально, как тут, то она не в замыкании, но, если я помещу ее в функцию randomNumber, то при ответе больше/меньше/не число, переменная перезаписывается, соответственно число меняется.
-function randomNumber() {
-  // console.log(randNumber);
-  let playerNumber = prompt('Угадай число от 1 до 100');
-  function isNumber() {
-    if (playerNumber === null) { // Работает
-      return alert('Игра окончена');
-    } else if (isNaN(parseFloat(playerNumber))) { // Работает
-      alert('Введите число');
-      return randomNumber();
-    } else if (Number(playerNumber) === randNumber) { // Работает
-      return alert('Поздравляю, Вы угадали!!!');
-    }
-    else if (Number(playerNumber) > randNumber) { // Работает
-      alert('Заданное число больше');
-      return randomNumber();
-    } else if (Number(playerNumber) < randNumber) { // Работает
-      alert('Заданное число меньше');
-      return randomNumber();
-    }
+// Усложненное задание
+// Дописать функционал игрового бота.
+// Кол-во попыток пользователя должно быть ограничено: 10
+// — если пользовательское число больше, то бот выводит "Загаданное число меньше, осталось попыток ..." и предлагает ввести новый вариант;
+// — если пользовательское число меньше, то бот выводит "Загаданное число больше, осталось попыток ..." и предлагает ввести новый вариант;
+// — если пользователь вводит правильное число, то бот выводит "Поздравляю, Вы угадали!!! Хотели бы сыграть еще?", при нажатии ОК игра перезапускается (снова 10 попыток и новое загаданное число)
+// — если пользователь ввел не число, то выводит сообщение "Введи число!" и предлагает ввести новый вариант;
+// — если пользователь нажимает "Отмена", то игра выводит прощальное сообщение и завершается.
+// — если закончились попытки то программа сообщает: "Попытки закончились, хотите сыграть еще?"
+// Программа должны быть выполнена с помощью рекурсии, без единого цикла.
+// Загаданное число и оставшиеся кол-во попыток должно храниться «в замыкании»
 
+function game() {
+  let randNumber = Math.round(Math.random() * 100);
+  let count = 10;
+  function randomNumber() {
+    console.log(randNumber);
+    let playerNumber = prompt('Угадай число от 1 до 100');
+    function isNumber() {
+      if (playerNumber === null) { // 
+        return alert('Игра окончена');
+      } else if (count === 0) {
+        let noCount = confirm('Попытки закончились, хотите сыграть еще?');
+        if (noCount === false) {
+          return alert('Игра окончена');
+        } else {
+          return game();
+        }
+      } else if (isNaN(parseFloat(playerNumber))) { // 
+        alert('Введите число');
+        return randomNumber();
+      } else if (Number(playerNumber) === randNumber) { // 
+        let question = confirm('Поздравляю, Вы угадали!!! Хотели бы сыграть еще?');
+        if (question === false) {
+          return alert('Игра окончена');
+        } else {
+          return game();
+        }
+      }
+      else if (Number(playerNumber) > randNumber) { // 
+        count = count - 1;
+        alert('Загаданное число меньше, осталось попыток ' + count);
+        return randomNumber();
+      } else if (Number(playerNumber) < randNumber) { // 
+        count = count - 1;
+        alert('Загаданное число больше, осталось попыток ' + count);
+        return randomNumber();
+      }
+    }
+    return isNumber();
   }
-  return isNumber();
+
+  randomNumber();
 }
 
-randomNumber();
-
+game();
