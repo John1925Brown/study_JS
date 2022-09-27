@@ -31,7 +31,11 @@ function game() {
     function isNumber() {
       if (playerNumber === null) { // 
         return alert('Игра окончена');
-      } else if (count === 0) {
+      } else if (playerNumber > 100 || playerNumber < 1) {
+        alert('Число должно быть от 1 до 100')
+        return randomNumber();
+      }
+      else if (count === 0) {
         let noCount = confirm('Попытки закончились, хотите сыграть еще?');
         if (noCount === false) {
           return alert('Игра окончена');
