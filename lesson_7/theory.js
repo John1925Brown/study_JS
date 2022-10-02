@@ -87,7 +87,7 @@ let auto = {
 };
 
 for (let key in auto) { // Перебираем объект
-  console.log('Ключ: ' + key + '. Значение: ' + car[key]);
+  console.log('Ключ: ' + key + '. Значение: ' + auto[key]);
 }
 
 console.log(Object.keys(auto).length); // Указывает количество элементов в объекте. Напрямую через lenght не получится
