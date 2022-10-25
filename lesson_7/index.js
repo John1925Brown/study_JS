@@ -25,9 +25,10 @@ let appData = {
   budgetDay: 0,
   budgetMonth: 0,
   expensesMonth: 0,
-  getExpensesMonth: function () { // Работает только, если вызвать функцию в appData.asking или написать ее за пределами объекта и там же ее вызвать
+  getExpensesMonth: function () {
+    ; // Работает только, если вызвать функцию в appData.asking или написать ее за пределами объекта и там же ее вызвать
     for (let key in appData.expences) {
-      appData.expensesMonth = appData.expensesMonth + +appData.expences[key];
+      appData.expensesMonth = appData.expensesMonth + appData.expences[key];
     }
     return appData.expensesMonth;
   },
@@ -60,34 +61,29 @@ let appData = {
     let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
     appData.addExpenses = addExpenses.toLowerCase().split(',');
     appData.deposit = confirm('Есть ли у вас депозит в банке?');
-    appData.expences = itemExpences;
-    let questionExpences;
-    itemExpencesCount = function () {
-      let check;
-      for (let i = 0; i < 2; i++) {
-        questionExpences = prompt('Введите статью расходов');
-        do {
-          check = prompt('Во сколько обойдутся расходы?');
-        }
-        while (!isNumber(check));
-        itemExpences[questionExpences] = check;
-      }
-      return itemExpences;
+    function getRequreExp() {
+      let count = 0;
+      do {
+        count = prompt('Во сколько обойдутся расходы?');
+      } while (!isNumber(count));
+      return +count;
     }
-    itemExpencesCount();
+    for (let i = 0; i < 2; i++) {
+      appData.expences[prompt('Введите статью расходов')] = getRequreExp();
+    }
+    console.log("appData.expences", appData.expences);
 
-    console.log(appData.getExpensesMonth()); // Работает только, если вызвать функцию в appData.asking или написать ее за пределами объекта и там же ее вызвать
-    console.log(appData.getBudget()); // Работает только, если вызвать функцию в appData.asking или написать ее за пределами объекта и там же ее вызвать
-    appData.budgetMonth = AccumulatedMonthArr[0];
-    appData.budgetDay = AccumulatedMonthArr[1];
+    // appData.budgetMonth = AccumulatedMonthArr[0];
+    // appData.budgetDay = AccumulatedMonthArr[1];
     // appData.getTargetMonth();
-    console.log('Расходы за месяц: ' + appData.expensesMonth);
-    console.log('Цель будет достигнута за ' + appData.getTargetMonth() + ' месяцев');
-    console.log(appData.getStatusIncome());
+    // console.log('Расходы за месяц: ' + appData.expensesMonth);
+    // console.log('Цель будет достигнута за ' + appData.getTargetMonth() + ' месяцев');
+    // console.log(appData.getStatusIncome());
   }
 };
-console.log(appData);
+// console.log(appData);
 appData.asking();
+console.log("appData.expences", appData.expences);
 // console.log(appData.getExpensesMonth()); // Работает только, если вызвать функцию в appData.asking или написать ее за пределами объекта и там же ее вызвать
 
 // appData.getExpensesMonth();
@@ -95,7 +91,7 @@ appData.asking();
 // console.log(appData.getBudget()); // Работает только, если вызвать функцию в appData.asking или написать ее за пределами объекта и там же ее вызвать
 
 
-
+appData.getExpensesMonth();
 
 // function getExpensesMonthAfter() { // Работает, но нужно запихнуть в getExpensesMonth в appData
 //   for (let key in appData.expences) { // Перебираем объект
@@ -107,6 +103,10 @@ appData.asking();
 // console.log(getExpensesMonthAfter());
 
 console.log('Наша программа включает в себя данные:');
-for (let key in appData) { // Перебираем объект
-  console.log(key + ' - ' + appData[key]);
+// for (let key in appData) { // Перебираем объект
+//   console.log(key + ' - ' + appData[key]);
+// }
+
+for (const key of Object.entries(appData)) {
+  console.log(key);
 }
