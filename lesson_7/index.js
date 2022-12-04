@@ -19,6 +19,8 @@ let appData = {
   expences: {},
   addExpenses: [],
   deposit: false,
+  persentDeposit: 0,
+  moneyDeposit: 0,
   mission: 5000,
   period: 5,
   budget: money,
@@ -26,7 +28,6 @@ let appData = {
   budgetMonth: 0,
   expensesMonth: 0,
   getExpensesMonth: function () {
-    ; // Работает только, если вызвать функцию в appData.asking или написать ее за пределами объекта и там же ее вызвать
     for (let key in appData.expences) {
       appData.expensesMonth = appData.expensesMonth + appData.expences[key];
     }
@@ -37,7 +38,7 @@ let appData = {
     appData.budgetMonth = money - appData.expensesMonth;
     appData.budgetDay = appData.budgetMonth / 30;
     AccumulatedMonthArr.push(appData.budgetMonth, appData.budgetDay);
-    return AccumulatedMonthArr; // Записывает как нужно, нужно вытянуть и закинуть в свои переменные, убрать описание
+    return AccumulatedMonthArr;
   },
   getTargetMonth: function () {
     if (appData.mission / appData.budgetMonth < 0) {
@@ -57,7 +58,27 @@ let appData = {
       return ('Что то пошло не так');
     }
   },
+  getInfoDeposit: function () {
+    if (appData.deposit) {
+      appData.persentDeposit = prompt('Какой годовой процент?', 10);
+      while (!isNumber(appData.persentDeposit)) {
+        appData.persentDeposit = prompt('Какой годовой процент?', 10);
+      }
+      appData.moneyDeposit = prompt('Какая сумма положена?', 10000);
+      while (!isNumber(appData.moneyDeposit)) {
+        appData.moneyDeposit = prompt('Какая сумма положена?', 10000);
+      }
+    }
+  },
+  calcSaveMoney: function () {
+    return appData.budgetMonth * appData.period;
+  },
   asking: function () {
+    if (confirm('Есть ли у вас дополнительный заработок?')) {
+      let itemIncome = prompt('Какой у вас дополнительный заработок?', 'Такси');
+      let cashIncome = prompt('Сколько зарабатываете в месяц?', 10000);
+      appData.income[itemIncome] = cashIncome;
+    }
     let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
     appData.addExpenses = addExpenses.toLowerCase().split(',');
     appData.deposit = confirm('Есть ли у вас депозит в банке?');
@@ -72,41 +93,24 @@ let appData = {
       appData.expences[prompt('Введите статью расходов')] = getRequreExp();
     }
     console.log("appData.expences", appData.expences);
-
-    // appData.budgetMonth = AccumulatedMonthArr[0];
-    // appData.budgetDay = AccumulatedMonthArr[1];
-    // appData.getTargetMonth();
-    // console.log('Расходы за месяц: ' + appData.expensesMonth);
-    // console.log('Цель будет достигнута за ' + appData.getTargetMonth() + ' месяцев');
-    // console.log(appData.getStatusIncome());
   }
 };
-// console.log(appData);
+
 appData.asking();
 console.log("appData.expences", appData.expences);
-// console.log(appData.getExpensesMonth()); // Работает только, если вызвать функцию в appData.asking или написать ее за пределами объекта и там же ее вызвать
-
-// appData.getExpensesMonth();
-
-// console.log(appData.getBudget()); // Работает только, если вызвать функцию в appData.asking или написать ее за пределами объекта и там же ее вызвать
-
 
 appData.getExpensesMonth();
+appData.getBudget();
+appData.getTargetMonth();
+appData.getStatusIncome();
 
-// function getExpensesMonthAfter() { // Работает, но нужно запихнуть в getExpensesMonth в appData
-//   for (let key in appData.expences) { // Перебираем объект
-//     appData.expensesMonth = appData.expensesMonth + +appData.expences[key];
-//   }
-//   return appData.expensesMonth;
-// };
-
-// console.log(getExpensesMonthAfter());
 
 console.log('Наша программа включает в себя данные:');
-// for (let key in appData) { // Перебираем объект
-//   console.log(key + ' - ' + appData[key]);
-// }
 
 for (const key of Object.entries(appData)) {
   console.log(key);
 }
+appData.getInfoDeposit();
+console.log(appData.persentDeposit, appData.moneyDeposit, appData.calcSaveMoney());
+
+console.log(money);
