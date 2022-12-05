@@ -76,34 +76,38 @@ let appData = {
   asking: function () {
     if (confirm('Есть ли у вас дополнительный заработок?')) {
       let itemIncome = prompt('Какой у вас дополнительный заработок?', 'Такси');
+      while (isNumber(itemIncome || itemIncome === null || itemIncome === '')) {
+        itemIncome = prompt('Какой у вас дополнительный заработок?', 'Такси');
+      }
       let cashIncome = prompt('Сколько зарабатываете в месяц?', 10000);
+      while (!isNumber(cashIncome)) {
+        cashIncome = prompt('Сколько зарабатываете в месяц?', 10000);
+      }
       appData.income[itemIncome] = cashIncome;
     }
-    let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
-    appData.addExpenses = addExpenses.toLowerCase().split(',');
+    addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую');
+    appData.addExpenses = addExpenses.toLowerCase().split(',').map(elem => { return elem[0].toUpperCase() + elem.slice(1); }).join(', ');
     appData.deposit = confirm('Есть ли у вас депозит в банке?');
-    function getRequreExp() {
-      let count = 0;
-      do {
-        count = prompt('Во сколько обойдутся расходы?');
-      } while (!isNumber(count));
-      return +count;
-    }
     for (let i = 0; i < 2; i++) {
-      appData.expences[prompt('Введите статью расходов')] = getRequreExp();
+      let itemExpences = prompt('Введите обязательную статью расходов', 'Оплата квартиры');
+      while (isNumber(itemExpences) || itemExpences === null || itemExpences === '') {
+        itemExpences = prompt('Введите обязательную статью расходов', 'Оплата квартиры');
+      }
+      let cashExpences;
+      do {
+        cashExpences = prompt('Во сколько это обойдется?');
+      } while (cashExpences === '' || cashExpences === null || isNaN(cashExpences));
+      appData.expences[itemExpences] = cashExpences;
     }
     console.log("appData.expences", appData.expences);
   }
 };
 
 appData.asking();
-console.log("appData.expences", appData.expences);
-
 appData.getExpensesMonth();
 appData.getBudget();
 appData.getTargetMonth();
 appData.getStatusIncome();
-
 
 console.log('Наша программа включает в себя данные:');
 
