@@ -11,6 +11,37 @@ let start = function () {
   while (!isNumber(money));
 };
 
+let buttonCalc = document.querySelector('#start');
+
+let buttonPlucIncome = document.querySelectorAll('button')[0];
+let buttonPlucExpences = document.querySelectorAll('button')[1];
+let checkboxDeposit = document.querySelector('#deposit-check');
+
+let incomeItemOne = document.querySelectorAll('.additional_income-item')[0]; // Логично ли переменные назвать incomeItem1/2/3... Так как может же быть не 2 расхода, а 15. Вроде было бы проще прописать, чтобы увеличивалось число в названии при создании такой же новой переменной?
+let incomeItemTwo = document.querySelectorAll('.additional_income-item')[1];
+
+let resultBudgetMonth = document.getElementsByClassName('.result-budget_month')[0];
+let resultBudgetDay = document.getElementsByClassName('.result-budget_day')[1];
+let resultExpencesMonth = document.getElementsByClassName('.result-expenses_month')[2];
+let resultAddIncome = document.getElementsByClassName('.result-additional_income')[3];
+let resultAddExpences = document.getElementsByClassName('.result-additional_expenses')[4];
+let resultIncomePeriod = document.getElementsByClassName('.result-income_period')[5];
+let resultTargetMonth = document.getElementsByClassName('.result-target_month')[6];
+
+let salary = document.querySelector('.salary-amount');
+
+let incomeTitle = document.querySelector('.income-title');
+let incomeAmount = document.querySelector('.income-amount');
+
+let expencesTitle = document.querySelector('.expenses-title');
+let expencesAmount = document.querySelector('.expenses-amount');
+
+let addExpensesItem = document.querySelector('.additional_expenses-item');
+
+let targetAmount = document.querySelector('.target-amount');
+let periodSelect = document.querySelector('.period-select');
+
+
 start();
 
 let appData = {
@@ -99,7 +130,6 @@ let appData = {
       } while (cashExpences === '' || cashExpences === null || isNaN(cashExpences));
       appData.expences[itemExpences] = cashExpences;
     }
-    console.log("appData.expences", appData.expences);
   }
 };
 
@@ -109,12 +139,11 @@ appData.getBudget();
 appData.getTargetMonth();
 appData.getStatusIncome();
 
-console.log('Наша программа включает в себя данные:');
+// console.log('Наша программа включает в себя данные:');
 
-for (const key of Object.entries(appData)) {
-  console.log(key);
-}
-appData.getInfoDeposit();
-console.log(appData.persentDeposit, appData.moneyDeposit, appData.calcSaveMoney());
+// for (const key of Object.entries(appData)) {
+//   console.log(key);
+// }
+// appData.getInfoDeposit();
+// console.log(appData.persentDeposit, appData.moneyDeposit, appData.calcSaveMoney());
 
-console.log(money);
