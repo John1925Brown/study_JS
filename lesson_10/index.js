@@ -46,4 +46,3 @@ thirdHead.insertAdjacentHTML('beforebegin', '<h3>beforebegin</h3>'); // Вста
 thirdHead.insertAdjacentHTML('afterend', '<h3>afterend</h3>'); // Вставляет тег после указанного элемента
 thirdHead.insertAdjacentHTML('afterbegin', '<p>afterbegin</p>'); // Вставляет тег после указанного элемента внутри
 thirdHead.insertAdjacentHTML('beforeend', '<p>beforeend</p>'); // Вставляет тег после указанного элемента внутри
-
