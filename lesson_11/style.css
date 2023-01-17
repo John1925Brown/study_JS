@@ -1,0 +1,40 @@
+.green{
+  background: rgb(21, 216, 21);
+  border-radius: 8px;
+}
+
+.button{
+  margin: 20px;
+  padding: 30px;
+  background-color: rgb(173, 173, 28);
+  border-radius: 8px;
+}
+
+.link__block{
+  margin: 20px;
+}
+
+.square{
+  background-color: red;
+  height: 250px;
+  width: 250px;
+  position: relative;
+}
+
+.circle{
+  position: absolute;
+  top: 60px;
+  left: 60px;
+  position: relative;
+  background-color: #fff;
+  height: 130px;
+  width: 130px;
+  border-radius: 50%;
+}
+
+.event__btn{
+  position: absolute;
+  left: 45px;
+  top: 54px;
+  background-color: rgb(154, 199, 49);
+}
