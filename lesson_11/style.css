@@ -1,6 +1,7 @@
 .green{
   background: rgb(21, 216, 21);
   border-radius: 8px;
+  border-top: 5px;
 }
 
 .button{
