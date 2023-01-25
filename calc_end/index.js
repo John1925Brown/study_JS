@@ -73,12 +73,22 @@ let incomeTitle = document.querySelector('.income-title');
 let incomeAmount = document.querySelector('.income-amount');
 let expensesTitle = document.querySelector('.expenses-title');
 let expensesItems = document.querySelectorAll('.expenses-items');
-let addExpensesItem = document.querySelector('.additional_expenses-item');
 let targetAmount = document.querySelector('.target-amount');
 let periodSelect = document.querySelector('.period-select');
 let periodAmount = document.querySelector('.period-amount');
 let additionalExpensesItem = document.querySelector('.additional_expenses-item');
 let incomeItems = document.querySelectorAll('.income-items');
+let addIncomeTitle = document.querySelectorAll('.additional_income-item')[0];
+
+
+let placeWord = document.querySelectorAll('input'); // Получил массив инпутов
+let placeholderName = [];
+placeWord.forEach(element => {
+  if (element.getAttribute('placeholder') === 'Наименование') {
+    return placeholderName.push(element);
+  }
+});
+console.log(placeholderName);
 
 
 let appData = {
@@ -163,6 +173,8 @@ let appData = {
   },
   addExpensesBlock: function () {
     let cloneExpensesItem = expensesItems[0].cloneNode(true);
+    cloneExpensesItem.childNodes[1].value = '';
+    cloneExpensesItem.childNodes[3].value = '';
     expensesItems[0].parentNode.insertBefore(cloneExpensesItem, expensesPlus);
     expensesItems = document.querySelectorAll('.expenses-items');
     if (expensesItems.length === 3) {
@@ -171,6 +183,8 @@ let appData = {
   },
   addIncomeBlock: function () {
     let cloneIncomeItem = incomeItems[0].cloneNode(true);
+    cloneIncomeItem.childNodes[1].value = '';
+    cloneIncomeItem.childNodes[3].value = '';
     incomeItems[0].parentNode.insertBefore(cloneIncomeItem, incomePlus);
     incomeItems = document.querySelectorAll('.income-items');
     if (incomeItems.length === 3) {
@@ -196,9 +210,7 @@ let appData = {
       if (itemIncome !== '' && cashIncome !== '') {
         appData.incomeMonth += +cashIncome;
       }
-      // Нужно было переписать по аналогии с getExpenses. Но он по умолчанию массив, а тут число. Нужно ли мне использовать itemIncome?
     });
-
   },
   getAddExpenses: function () {
     let addExpenses = additionalExpensesItem.value.split(',');
@@ -223,6 +235,16 @@ expensesPlus.addEventListener('click', appData.addExpensesBlock);
 incomePlus.addEventListener('click', appData.addIncomeBlock);
 start.addEventListener('click', appData.start);
 periodSelect.addEventListener('change', appData.rangePeriod);
+
+
+
+addIncomeTitle.addEventListener('input', () => {
+  addIncomeTitle.value = addIncomeTitle.value.replace(/[^а-я]/, '');  // Работает
+});
+
+expensesTitle.addEventListener('input', () => {
+  expensesTitle.value = expensesTitle.value.replace(/[^а-я]/, ''); // Не работает
+});
 
 let disOff = function () {
   buttonCalc.removeAttribute('disabled');
