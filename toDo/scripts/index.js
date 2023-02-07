@@ -11,22 +11,18 @@ let render = function () {
   todoData.forEach((item, index) => {
     let li = document.createElement('li');
     li.classList.add('todo-item', 'todo-item_' + index);
-    li.innerHTML = '<span class="text-todo">' + item.value + '</span>' +
-      '<div class="todo-buttons">' + '<button class="todo-remove"></button>' +
-      '<button class="todo-complete"></button>' + '</div>';
-    if (item.completed) {
-      todoCompleted.append(li);
-    } else {
-      todoList.append(li);
-    }
-    let BtnTodoComplete = li.querySelector('.todo-complete');
-    let BtnTodoRemove = li.querySelector('.todo-remove');
-    BtnTodoRemove.addEventListener('click', function () {
+    li.innerHTML = `<span class="text-todo"> ${item.value}  </span> 
+      <div class="todo-buttons"> <button class="todo-remove"></button> 
+      <button class="todo-complete"></button> + </div>`;
+    item.completed ? todoCompleted.append(li) : todoList.append(li);
+    let btnTodoComplete = li.querySelector('.todo-complete');
+    let btnTodoRemove = li.querySelector('.todo-remove');
+    btnTodoRemove.addEventListener('click', function () {
       li.remove(item);
       todoData.splice(index, 1);
       localStorage.setItem('todo', JSON.stringify(todoData));
     });
-    BtnTodoComplete.addEventListener('click', function () {
+    btnTodoComplete.addEventListener('click', function () {
       item.completed = !item.completed;
       localStorage.setItem('todo', JSON.stringify(todoData));
       render();
