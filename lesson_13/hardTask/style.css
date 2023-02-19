@@ -1,0 +1,14 @@
+.color__num{
+  width: 100px;
+  text-align: center;
+  display: block;
+  margin: 50px auto;
+  font-size: 25px;
+  font-weight: bold;
+  background-color: #fff;
+}
+
+.change{
+  display: block;
+  margin: 50px auto;
+}
