@@ -197,12 +197,32 @@ AppData.prototype.reset = function () {
   for (let i = 0; i < expensesItems.length; i++) {
     expensesItems[i].parentNode.removeChild.expensesItems[i];
     btnExpAdd.style.display = 'block';
-  }};
+  }
 
-let appData = new AppData();
+  this.budget = 0;
+  this.budgetDay = 0;
+  this.budgetMonth = 0;
+  this.income = {};
+  this.incomeMonth = 0;
+  this.addIncome = [];
+  this.expenses = {};
+  this.expensesMonth = 0;
+  this.deposit = false;
+  this.persentDeposit = 0;
+  this.moneyDeposit = 0;
+  this.addExpenses = [];
+  
+  cancel.style.display = 'none';
+  start.style.display = 'block';
+  btnExpAdd.removeAttribute('disabled');
+  btnIncAdd.removeAttribute('disabled');
+  checkBox.checked = 'false';
+};
 
-start.addEventListener('click', appData.start.bind(appData));
-btnExpAdd.addEventListener('click', appData.addExpensesBlock);
+  let appData = new AppData();
+  
+  start.addEventListener('click', appData.start.bind(appData));
+  btnExpAdd.addEventListener('click', appData.addExpensesBlock);
 btnIncAdd.addEventListener('click', appData.addIncomeBlock);
 salaryAmount.addEventListener('keyup', appData.check);
 cancel.addEventListener('click', appData.reset.bind(appData));
