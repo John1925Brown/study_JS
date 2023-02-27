@@ -57,6 +57,7 @@ AppData.prototype.start = function () {
 
   this.budget = +salaryAmount.value;
 
+  this.eventListeners();
   this.getExpenses();
   this.getIncome();
   this.getExpensesMonth();
@@ -81,6 +82,7 @@ AppData.prototype.showResult = function () {
     incPeriodValue.value = _this.calcPeriod();
 });
 };
+
 AppData.prototype.addExpensesBlock = function () {
   let cloneExpensesItem = expensesItems[0].cloneNode(true);
   expensesItems[0].parentNode.insertBefore(cloneExpensesItem, btnExpAdd);
@@ -177,6 +179,7 @@ AppData.prototype.getInfoDeposit = function () {
 AppData.prototype.calcPeriod = function () {
   return this.budgetMonth * periodSelect.value;
 };
+
 AppData.prototype.reset = function () {
   let inputTextData = document.querySelectorAll('.data input[type = text]');
   let resultInputAll = document.querySelectorAll('.result input[type = text]');
@@ -211,7 +214,7 @@ AppData.prototype.reset = function () {
   this.persentDeposit = 0;
   this.moneyDeposit = 0;
   this.addExpenses = [];
-  
+
   cancel.style.display = 'none';
   start.style.display = 'block';
   btnExpAdd.removeAttribute('disabled');
@@ -219,21 +222,26 @@ AppData.prototype.reset = function () {
   checkBox.checked = 'false';
 };
 
-  let appData = new AppData();
-  
-  start.addEventListener('click', appData.start.bind(appData));
-  btnExpAdd.addEventListener('click', appData.addExpensesBlock);
-btnIncAdd.addEventListener('click', appData.addIncomeBlock);
-salaryAmount.addEventListener('keyup', appData.check);
-cancel.addEventListener('click', appData.reset.bind(appData));
+AppData.prototype.eventListeners = function () {
+  let _this = this;
+  start.addEventListener('click', _this.start.bind(_this));
+  btnExpAdd.addEventListener('click', _this.addExpensesBlock);
+  btnIncAdd.addEventListener('click', _this.addIncomeBlock);
+  salaryAmount.addEventListener('keyup', _this.check);
+  cancel.addEventListener('click', _this.reset.bind(_this));
 
-periodSelect.addEventListener('change', function () {
-  periodAmount.value = periodSelect.value;
-  });
+  periodSelect.addEventListener('change', function () {
+    periodAmount.value = periodSelect.value;
+    });
 
-let addExp = [];
-for (let i = 0; i < appData.addExpenses.length; i++) {
-  let element = appData.addExpenses[i].trim();
-  element = element.charAt(0).toUpperCase() + element.substring(1).toLowerCase();
-  addExp.push(element);
+    let addExp = [];
+    for (let i = 0; i < _this.addExpenses.length; i++) {
+      let element = _this.addExpenses[i].trim();
+      element = element.charAt(0).toUpperCase() + element.substring(1).toLowerCase();
+      addExp.push(element);
+    };
 };
+
+let appData = new AppData();
+
+appData.eventListeners();
