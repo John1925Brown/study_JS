@@ -54,6 +54,3 @@ let domElement = new DomElement('#className', 70, 230, 'yellow', 20);
 
 
 domElement.addElem();
-
-
-
