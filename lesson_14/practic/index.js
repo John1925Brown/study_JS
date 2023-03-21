@@ -22,19 +22,24 @@
 // 2) Создать новый объект на основе класса DomElement
 // 3) Вызвать его метод чтобы получить элемент на странице
 
+document.addEventListener('DOMContentLoaded', function(){
+
 let body = document.querySelector('body');
-function DomElement(selector, height, width, bg, fontSize) {
+function DomElement(selector, height, width, bg, fontSize, position, left, top) {
   this.selector = selector;
   this.height = height;
   this.width = width;
   this.bg = bg;
   this.fontSize = fontSize;
+  this.position = position;
+  this.left = left;
+  this.top = top;
 };
 
 DomElement.prototype.addElem = function(){
   let newElem;
   let selectorElem = this.selector.split('')[0];
-  let classElem = this.selector.split('').splice(1).join('');
+  let classElem = this.selector.slice(0, 1);
   if(selectorElem === '.'){
     newElem = document.createElement('div');
     newElem.classList.add(classElem);
@@ -47,13 +52,29 @@ DomElement.prototype.addElem = function(){
   newElem.style.width = this.width + 'px';
   newElem.style.backgroundColor = this.bg;
   newElem.style.fontSize = this.fontSize + 'px';
+  newElem.style.position = this.position;
+  newElem.style.left = this.left + 'px';
+  newElem.style.top = this.top + 'px';
 };
 
-
-let domElement = new DomElement('#className', 70, 230, 'yellow', 20);
-
+let domElement = new DomElement('#className', 100, 100, 'yellow', 20, 'absolute', 700, 300);
 
 domElement.addElem();
 
+let sqr = document.querySelector('p');
 
+function sqrMove(e) {
+  if(e.key === 'ArrowLeft'){
+  sqr.style.left = (+sqr.style.left.slice(0, 3) - 10) + 'px';
+  } else if(e.key === 'ArrowRight'){
+  sqr.style.left = (+sqr.style.left.slice(0, 3) + 10) + 'px';
+  } else if(e.key === 'ArrowUp'){
+  sqr.style.top = (+sqr.style.top.slice(0, 3) - 10) + 'px';
+  } else if(e.key === 'ArrowDown'){
+  sqr.style.top = (+sqr.style.top.slice(0, 3) + 10) + 'px';
+  }
+};
 
+document.addEventListener('keydown', sqrMove);
+
+}, false );
