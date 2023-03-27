@@ -25,11 +25,11 @@ let registrationFunc = function() {
   };
   
   let namesFunc = function(){
-    newUser.names = prompt('Введите имя и фамилию через пробел');
-    if(newUser.names === ''){
+    newUser.names = prompt('Введите имя и фамилию через пробел').trim();
+    if(!newUser.names.length){
       alert('Вы ничего не ввели. Введите имя и фамилию через пробел');
       namesFunc();
-    } else if(newUser.names.trim().split(' ').length !== 2){
+    } else if(newUser.names.split(' ').length !== 2){
       alert('Введите имя и фамилию через пробел');
       namesFunc();
     }
@@ -37,12 +37,12 @@ let registrationFunc = function() {
   
   let loginFunc = function(){
     newUser.login = prompt('Придумайте логин').trim();
-    if(newUser.login === ''){
+    if(!newUser.login.length){
       alert('Вы ничего не ввели. Придумайте логин');
       loginFunc();
     };
       users.forEach(function(item,index){
-        if(item.login.trim() === newUser.login.trim()){
+        if(item.login=== newUser.login){
           alert('Пользователь с таким логином уже существует. Придумайте другой логин');
           loginFunc();
         }
@@ -50,8 +50,8 @@ let registrationFunc = function() {
   };
   
   let passFunc = function(){
-    newUser.pass = prompt('Придумайте пароль');
-    if(newUser.pass === ''){
+    newUser.pass = prompt('Придумайте пароль').trim();
+    if(!newUser.pass.length){
       alert('Вы ничего не ввели. Придумайте пароль');
       passFunc();
     };
@@ -80,9 +80,8 @@ let loginInFunc = function () {
   users.forEach(function(item,index){
     if(item.login !== enterLogin || item.pass !== enterPass){
       alert('Неверный логин или пароль!');
-    } else if(item.login === enterLogin && item.pass === enterPass){
-      username.innerHTML = item.firstName;
     }
+      username.innerHTML = item.firstName;
   });
 };
 
