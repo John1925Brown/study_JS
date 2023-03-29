@@ -1,66 +1,97 @@
-{ // ------------------------------------------ defineProperty
-  const mazda = {
-  model: 3,
-  year: 2006
+ // ----------------------------------Классы
+
+ class CarWash{ // Создает класс(функция-конструктор), функция, которая создает объект
+  // Можно объявить конструктор - метод, который создается в момент создания класса
+  // Конструктор подготавливает объект для дальнейшего использования и можно указывать свойства объекта
+
+  // constructor(){ 
+  //   this.brand = 'mazda';
+  // }
+
+  // В конструктор можно передавать аргументы(в таком случае, при создании объекта, передаем значение)
+    constructor(brand, model = CarWash.noCarBaseModel(), services = []){ 
+    this.brand = brand;
+    this.model = model;
+    this.washed = false;
+    this._services = services; // Нижнее подчеркивание в названии нужно, чтобы мы не имели доступа к этой переменной извне(инкапсуляция)
+  }
+
+   // Можно создавать статические методы. Они будут пренадлежать классу, а не объекту
+   static noCarBaseModel(){
+    return 'none';
+   };
+   // Такие методы нельзя вызвать из объекта
+   // То есть нельзя написать car1.noCarBaseModel() / car1.counter тоже не найдет
+
+  // Методы добавляются обязательно(!) после конструктора
+  washReady(){
+    this.washed = true;
+    CarWash.counter++;
+    this.report();
+  }
+
+  report(){
+    console.log(this.brand, this.model, this.washed);
+  }
+
+  get services(){
+    console.log(this._services);
+    return this._services.length > 0 ? 'Есть допуслуги': 'Нет допуслуг';
+  }
+   
+  set services(addServices){ // Задает допуслуги
+    return this._services.push(addServices);
+  }
+
+
+ };
+
+class PassCar extends CarWash{ // Получение нового класса(PassCar), который наследует все свойства от CarWash
+// Если свой конструктор не указан(в PassCar), то используется наследуемый от родителя(от CarWash)
+// Для создания конструктора у наследуемого класса используется ключевое слово super
+// Далее перечисляем свойства, которые будут наследоваться. Передаем в качестве аргументов конструктору и super
+  constructor(brand, model, services, pass = 5){
+    super(brand, model, services);
+    this.pass = pass;
+  }
+
+  washReady(){ // Можно расширять и изменять метод
+    // this.washed = true;
+    // CarWash.counter++;
+    // this.report();
+    // Чтобы не переписывать часть кода, используем super
+    super.washReady();
+    this.reportOffice();
+  }
+
+  reportOffice(){
+    console.log('На мойке для легковых была помыта машина ');
+  }
 };
 
-// mazda.color = 'blue';
 
 
-// defineProperty позволяет добавлять свойство в объект и сразу настраивать его поведение
-// Также можно изменять поведение уже существующего свойства
-Object.defineProperty(mazda, 'color', { // Первый аргумет - объект, второй - ключ нового свойства
-  value: 'blue', // Значение
-  // Если writable, configurable, enumerable установить как true, то будет то же поведение, что и при обычном добавлении
-  writable: true, // Можно ли изменить значение(перезаписать)
-  configurable: true, // Можно ли удалить значение
-  enumerable: true // Будет ли отображаться во время перебора
-}); 
+CarWash.counter = 0; // Также добавление статического метода
 
-console.log(mazda);
-}
+const car1 = new CarWash('mazda', '3',['black tires', 'wax']); // Создали объект
+const car2 = new CarWash('BMW', '5');
 
-{// -----------------------------------Геттеры и сеттеры
-  const car = {
-    brand: 'mazda',
-    model: 3,
-    year: 2006
-  };
+const car3PassCar = new PassCar('Volvo');
+const car3 = new CarWash('Volvo');
+// Ничего не поменяется, вывод будет одинаковый, так как PassCar наследует все свойства от CarWash(до изменений в конструкторе PassCar)
 
-car.color = 'blue';
+car1.washReady();
+car2.washReady();
 
-Object.defineProperty(car, 'fullTitle',{
-  get: function(){ // Отдает значение
-    return this.brand + ' ' + this.model;
-  },
-  set: function(val){ // Задает значение
-    this.brand = val;
-  }
-});
+car1.services = 'Протирка стекол'; // Если бы не было _services(инкапсуляции), то добавлением этого значения заменились бы остальные
+console.log(car1.services);
+console.log(car2.services);
 
-car.fullTitle = 'BMW';
+car3.washReady();
+car3PassCar.washReady();
 
-console.log(car.fullTitle);
-}
+console.log(car3);
+console.log(car3PassCar);
 
-{
-const mazda = {
-  model: 3,
-  year: 2006,
-  get fullTitle(){
-    return this.brand + ' ' + this.model;
-  },
-  set fullTitle(value){
-    this.brand = value;
-  }
-};
-
-mazda.fullTitle = 'BMW';
-
-console.log(mazda.fullTitle);
-}
-
-
-
-
+console.log(CarWash.counter);
 
