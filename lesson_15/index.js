@@ -42,8 +42,6 @@
   set services(addServices){ // Задает допуслуги
     return this._services.push(addServices);
   }
-
-
  };
 
 class PassCar extends CarWash{ // Получение нового класса(PassCar), который наследует все свойства от CarWash
@@ -70,7 +68,6 @@ class PassCar extends CarWash{ // Получение нового класса(P
 };
 
 
-
 CarWash.counter = 0; // Также добавление статического метода
 
 const car1 = new CarWash('mazda', '3',['black tires', 'wax']); // Создали объект
@@ -94,4 +91,3 @@ console.log(car3);
 console.log(car3PassCar);
 
 console.log(CarWash.counter);
-
