@@ -1,42 +1,44 @@
-let start = document.querySelector('#start');
-let cancel = document.querySelector('#cancel');
-let btnIncAdd = document.querySelectorAll('button')[0];
-let btnExpAdd = document.querySelectorAll('button')[1];
-let checkBox = document.querySelector('#deposit-check');
-let addIncItem = document.querySelectorAll('.additional_income-item');
-let budgetDayValue = document.getElementsByClassName('budget_day-value')[0];
-let expensesMonthValue = document.getElementsByClassName('expenses_month-value')[0];
-let addIncomeValue = document.getElementsByClassName('additional_income-value')[0];
-let addExpValue = document.getElementsByClassName('additional_expenses-value')[0];
-let incPeriodValue = document.getElementsByClassName('income_period-value')[0];
-let targetMonthValue = document.getElementsByClassName('target_month-value')[0];
-let salaryAmount = document.querySelector('.salary-amount');
+const start = document.querySelector('#start');
+const cancel = document.querySelector('#cancel');
+const btnIncomeAdd = document.querySelectorAll('button')[0];
+const btnExpAdd = document.querySelectorAll('button')[1];
+const checkBox = document.querySelector('#deposit-check');
+const addIncItem = document.querySelectorAll('.additional_income-item');
+const budgetDayValue = document.getElementsByClassName('budget_day-value')[0];
+const expensesMonthValue = document.getElementsByClassName('expenses_month-value')[0];
+const addIncomeValue = document.getElementsByClassName('additional_income-value')[0];
+const addExpValue = document.getElementsByClassName('additional_expenses-value')[0];
+const incPeriodValue = document.getElementsByClassName('income_period-value')[0];
+const targetMonthValue = document.getElementsByClassName('target_month-value')[0];
+const salaryAmount = document.querySelector('.salary-amount');
 let expensesItems = document.querySelectorAll('.expenses-items'); 
-let addExpItem = document.querySelector('.additional_expenses-item');
-let targetAmount = document.querySelector('.target-amount');
-let periodSelect = document.querySelector('.period-select');
-let periodAmount = document.querySelector('.period-amount');
-let budgetMonthValue = document.getElementsByClassName('budget_month-value')[0];
+const addExpItem = document.querySelector('.additional_expenses-item');
+const targetAmount = document.querySelector('.target-amount');
+const periodSelect = document.querySelector('.period-select');
+const periodAmount = document.querySelector('.period-amount');
+const budgetMonthValue = document.getElementsByClassName('budget_month-value')[0];
 let incomeItems = document.querySelectorAll('.income-items');
 
 
-let AppData = function () {
-  this.budget = 0;
-  this.budgetDay = 0;
-  this.budgetMonth = 0;
-  this.income = {};
-  this.incomeMonth = 0;
-  this.addIncome = [];
-  this.expenses = {};
-  this.expensesMonth = 0;
-  this.deposit = false;
-  this.persentDeposit = 0;
-  this.moneyDeposit = 0;
-  this.addExpenses = [];
+class AppData {
+  constructor(){
+    this.budget = 0;
+    this.budgetDay = 0;
+    this.budgetMonth = 0;
+    this.income = {};
+    this.incomeMonth = 0;
+    this.addIncome = [];
+    this.expenses = {};
+    this.expensesMonth = 0;
+    this.deposit = false;
+    this.persentDeposit = 0;
+    this.moneyDeposit = 0;
+    this.addExpenses = [];
+  }
 };
 
-AppData.prototype.check = function () {
-  if(salaryAmount.value !== ''){
+AppData.prototype.check =  () => {
+  if(salaryAmount.value.length){
     start.removeAttribute('disabled');
   }
 };
@@ -46,20 +48,19 @@ AppData.prototype.start = function () {
     start.setAttribute('disabled', 'true');
     return;
   }
-  let allInput = document.querySelectorAll('input[type = text]');
-  allInput.forEach(function(item){
+  const allInput = document.querySelectorAll('input[type = text]');
+  allInput.forEach((item) => {
     item.setAttribute('disabled', 'true');
   });
   btnExpAdd.setAttribute('disabled', 'true');
-  btnIncAdd.setAttribute('disabled', 'true');
+  btnIncomeAdd.setAttribute('disabled', 'true');
   start.style.display = 'none';
   cancel.style.display = 'block';
 
   this.budget = +salaryAmount.value;
 
   this.eventListeners();
-  this.getExpenses();
-  this.getIncome();
+  this.getExpInc();
   this.getExpensesMonth();
   this.getAddExpenses();
   this.getAddIncome();
@@ -70,7 +71,7 @@ AppData.prototype.start = function () {
 };
 
 AppData.prototype.showResult = function () {
-  let _this = this; // Для того, чтобы в  incPeriodValue.value this смотрел на appData, а не на incPeriodValue
+  const _this = this; // Для того, чтобы в  incPeriodValue.value this смотрел на appData, а не на incPeriodValue
   budgetMonthValue.value = this.budgetMonth;
   budgetDayValue.value = this.budgetDay;
   expensesMonthValue.value = this.expensesMonth;
@@ -78,69 +79,93 @@ AppData.prototype.showResult = function () {
   addIncomeValue.value = this.addIncome.join(', ');
   targetMonthValue.value = Math.ceil(this.getTargetMonth());
   incPeriodValue.value = this.calcPeriod();
-  periodSelect.addEventListener('change', function () {
-    incPeriodValue.value = _this.calcPeriod();
+  periodSelect.addEventListener('change',  () => {
+  incPeriodValue.value = _this.calcPeriod();
 });
 };
+//---------------------------------------------------------------------------Было
+// AppData.prototype.addExpensesBlock = function () { 
+//   const cloneExpensesItem = expensesItems[0].cloneNode(true);
+//   expensesItems[0].parentNode.insertBefore(cloneExpensesItem, btnExpAdd);
+//   expensesItems = document.querySelectorAll('.expenses-items');
+//   if (expensesItems.length === 3) {
+//     btnExpAdd.style.display = 'none';
+//   }
+// };
 
-AppData.prototype.addExpensesBlock = function () {
-  let cloneExpensesItem = expensesItems[0].cloneNode(true);
-  expensesItems[0].parentNode.insertBefore(cloneExpensesItem, btnExpAdd);
-  expensesItems = document.querySelectorAll('.expenses-items');
-  if (expensesItems.length === 3) {
-    btnExpAdd.style.display = 'none';
-  }
-};
-AppData.prototype.getExpenses = function () {
-  let _this = this;
-  expensesItems.forEach(function (item) {
-    let itemExpenses = item.querySelector('.expenses-title').value;
-    let cashExpenses = item.querySelector('.expenses-amount').value;
-    if (itemExpenses !== '' && cashExpenses !== '') {
-      _this.expenses[itemExpenses] = cashExpenses;
+// AppData.prototype.addIncomeBlock = function () {
+//   const cloneIncomeItem = incomeItems[0].cloneNode(true);
+//   incomeItems[0].parentNode.insertBefore(cloneIncomeItem, btnIncomeAdd);
+//   incomeItems = document.querySelectorAll('.income-items');
+//   if (incomeItems.length === 3) {
+//     btnIncomeAdd.style.display = 'none';
+//   }
+// }; 
+// -------------------------------------------------------------------------------------
+AppData.prototype.addExpIncBlock = function(event){
+  if(event.target.parentNode.className === 'income'){
+    const cloneIncomeItem = incomeItems[0].cloneNode(true);
+    incomeItems[0].parentNode.insertBefore(cloneIncomeItem, btnIncomeAdd);
+    incomeItems = document.querySelectorAll(`.${event.target.parentNode.className}-items`);
+    if (incomeItems.length === 3) {
+      btnIncomeAdd.style.display = 'none';
     }
-  });
-};
-AppData.prototype.addIncomeBlock = function () {
-  let cloneIncomeItem = incomeItems[0].cloneNode(true);
-  incomeItems[0].parentNode.insertBefore(cloneIncomeItem, btnIncAdd);
-  incomeItems = document.querySelectorAll('.income-items');
-  if (incomeItems.length === 3) {
-    btnIncAdd.style.display = 'none';
   }
-};
-AppData.prototype.getIncome = function () {
-  let _this = this;
-  incomeItems.forEach(function (item) {
-    let itemIncome = item.querySelector('.income-title').value;
-    let cashIncome = item.querySelector('.income-amount').value;
-    if (itemIncome !== '' && cashIncome !== '') {
-      _this.income[itemIncome] = cashIncome;
+  if(event.target.parentNode.className === 'expenses'){
+    const cloneExpensesItem = expensesItems[0].cloneNode(true);
+    expensesItems[0].parentNode.insertBefore(cloneExpensesItem, btnExpAdd);
+    expensesItems = document.querySelectorAll(`.${event.target.parentNode.className}-items`);
+    if (expensesItems.length === 3) {
+      btnExpAdd.style.display = 'none';
     }
-  });
-  for(let key in this.income){
-    this.incomeMonth += +this.income[key];
   }
+// Вопрос в чем:
+// Грубо говоря, просто переписал две функции в одну, изначально пытался сделать по аналогии с видео, но не вышла.
+// Логика была какая: в переменную записывал часть названия класса, на кнопке которого отрабатывает событие: записывалось или expenses, или income
+// Но суть в том, что тип этой переменной - строка и, когда хотел, например, создать другую переменную, не выходило конвертировать эту строку в название переменной
+// Гуглил, пробовал различные решения, которые там были, но по итогу, ничего не подошло
 };
+
 AppData.prototype.getAddExpenses = function () {
-  let _this = this;
-  let addExpenses = addExpItem.value.split(',');
-  addExpenses.forEach(function (item) {
+  const _this = this;
+  addExpenses = addExpItem.value.split(',');
+  addExpenses.forEach((item) => {
     item = item.trim();
-    if (item !== '') {
+    if (item.length) {
       _this.addExpenses.push(item);
     }
   });
 };
 AppData.prototype.getAddIncome = function () {
-  let _this = this;
-  addIncItem.forEach(function (item) {
-    let itemValue = item.value.trim();
-    if (itemValue !== '') {
-      _this.addIncome.push(itemValue); 
+  const _this = this;
+  console.log(addIncItem);
+  addIncItem.forEach((item) => {
+    item = item.value.trim();
+    if (item.length) {
+      _this.addIncome.push(item); 
     }
   });
 };
+
+AppData.prototype.getExpInc = function() {
+  const _this = this;
+  const count = item => {
+    const startStr = item.className.split('-')[0];
+    const itemTitle = item.querySelector(`.${startStr}-title`).value;
+    const itemAmount = item.querySelector(`.${startStr}-amount`).value;
+        if (itemTitle.length && itemAmount.length) {
+          _this[startStr][itemTitle] = itemAmount;
+    }
+}
+
+  incomeItems.forEach(count);
+  expensesItems.forEach(count);
+
+    for(let key in this.income){
+    this.incomeMonth += +this.income[key];
+  }
+};
+
 AppData.prototype.getExpensesMonth = function () {
   for (let key in this.expenses) {
     this.expensesMonth += +this.expenses[key];
@@ -181,21 +206,21 @@ AppData.prototype.calcPeriod = function () {
 };
 
 AppData.prototype.reset = function () {
-  let inputTextData = document.querySelectorAll('.data input[type = text]');
-  let resultInputAll = document.querySelectorAll('.result input[type = text]');
-  inputTextData.forEach(item =>{
+  const inputTextData = document.querySelectorAll('.data input[type = text]');
+  const resultInputAll = document.querySelectorAll('.result input[type = text]');
+  inputTextData.forEach((item) =>{
     item.value = '';
     item.removeAttribute('disabled');
     periodSelect.value = 0;
     periodAmount.innerHTML = periodSelect.value;
   });
-  resultInputAll.forEach(item =>{
+  resultInputAll.forEach((item) =>{
     item.value = '';
   });
 
   for (let i = 0; i < incomeItems.length; i++) {
     incomeItems[i].parentNode.removeChild.incomeItems[i];
-    btnIncAdd.style.display = 'block';
+    btnIncomeAdd.style.display = 'block';
   }
   for (let i = 0; i < expensesItems.length; i++) {
     expensesItems[i].parentNode.removeChild.expensesItems[i];
@@ -218,23 +243,23 @@ AppData.prototype.reset = function () {
   cancel.style.display = 'none';
   start.style.display = 'block';
   btnExpAdd.removeAttribute('disabled');
-  btnIncAdd.removeAttribute('disabled');
+  btnIncomeAdd.removeAttribute('disabled');
   checkBox.checked = 'false';
 };
 
 AppData.prototype.eventListeners = function () {
-  let _this = this;
+  const _this = this;
   start.addEventListener('click', _this.start.bind(_this));
-  btnExpAdd.addEventListener('click', _this.addExpensesBlock);
-  btnIncAdd.addEventListener('click', _this.addIncomeBlock);
+  btnExpAdd.addEventListener('click', _this.addExpIncBlock);
+  btnIncomeAdd.addEventListener('click', _this.addExpIncBlock);
   salaryAmount.addEventListener('keyup', _this.check);
   cancel.addEventListener('click', _this.reset.bind(_this));
 
-  periodSelect.addEventListener('change', function () {
+  periodSelect.addEventListener('change',  () => {
     periodAmount.value = periodSelect.value;
     });
 
-    let addExp = [];
+    const addExp = [];
     for (let i = 0; i < _this.addExpenses.length; i++) {
       let element = _this.addExpenses[i].trim();
       element = element.charAt(0).toUpperCase() + element.substring(1).toLowerCase();
@@ -242,6 +267,6 @@ AppData.prototype.eventListeners = function () {
     };
 };
 
-let appData = new AppData();
+const appData = new AppData();
 
 appData.eventListeners();
