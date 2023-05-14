@@ -2,7 +2,10 @@ const start = document.querySelector('#start');
 const cancel = document.querySelector('#cancel');
 const btnIncomeAdd = document.querySelectorAll('button')[0];
 const btnExpAdd = document.querySelectorAll('button')[1];
-const checkBox = document.querySelector('#deposit-check');
+const depositCheck = document.querySelector('#deposit-check');
+const depositBank = document.querySelector('.deposit-bank');
+const depositAmount = document.querySelector('.deposit-amount');
+let depositPercent = document.querySelector('.deposit-percent');
 const addIncItem = document.querySelectorAll('.additional_income-item');
 const budgetDayValue = document.getElementsByClassName('budget_day-value')[0];
 const expensesMonthValue = document.getElementsByClassName('expenses_month-value')[0];
@@ -31,20 +34,20 @@ class AppData {
     this.expenses = {};
     this.expensesMonth = 0;
     this.deposit = false;
-    this.persentDeposit = 0;
+    this.percentDeposit = 0;
     this.moneyDeposit = 0;
     this.addExpenses = [];
   }
 };
 
 AppData.prototype.check =  () => {
-  if(salaryAmount.value.length){
-    start.removeAttribute('disabled');
+  if(salaryAmount.value.length && !isNaN(+depositPercent.value) && +depositPercent.value > 1 && +depositPercent.value < 100){
+    start.removeAttribute('disabled'); // Не убирается аттрибут. С одной проверкой (salaryAmount.value.length) все убиралось, теперь - нет
   }
 };
 
 AppData.prototype.start = function () {
-  if(salaryAmount.value == ''){
+  if(salaryAmount.value == '' || isNaN(+depositPercent.value) || +depositPercent.value < 1 || +depositPercent.value > 100){
     start.setAttribute('disabled', 'true');
     return;
   }
@@ -64,8 +67,8 @@ AppData.prototype.start = function () {
   this.getExpensesMonth();
   this.getAddExpenses();
   this.getAddIncome();
-  this.getBudget();
   this.getInfoDeposit();
+  this.getBudget();
   this.getStatusIncome();
   this.showResult();
 };
@@ -73,6 +76,7 @@ AppData.prototype.start = function () {
 AppData.prototype.showResult = function () {
   const _this = this; // Для того, чтобы в  incPeriodValue.value this смотрел на appData, а не на incPeriodValue
   budgetMonthValue.value = this.budgetMonth;
+  // percentIsNum();
   budgetDayValue.value = this.budgetDay;
   expensesMonthValue.value = this.expensesMonth;
   addExpValue.value = this.addExpenses.join(', '); 
@@ -83,25 +87,6 @@ AppData.prototype.showResult = function () {
   incPeriodValue.value = _this.calcPeriod();
 });
 };
-//---------------------------------------------------------------------------Было
-// AppData.prototype.addExpensesBlock = function () { 
-//   const cloneExpensesItem = expensesItems[0].cloneNode(true);
-//   expensesItems[0].parentNode.insertBefore(cloneExpensesItem, btnExpAdd);
-//   expensesItems = document.querySelectorAll('.expenses-items');
-//   if (expensesItems.length === 3) {
-//     btnExpAdd.style.display = 'none';
-//   }
-// };
-
-// AppData.prototype.addIncomeBlock = function () {
-//   const cloneIncomeItem = incomeItems[0].cloneNode(true);
-//   incomeItems[0].parentNode.insertBefore(cloneIncomeItem, btnIncomeAdd);
-//   incomeItems = document.querySelectorAll('.income-items');
-//   if (incomeItems.length === 3) {
-//     btnIncomeAdd.style.display = 'none';
-//   }
-// }; 
-// -------------------------------------------------------------------------------------
 AppData.prototype.addExpIncBlock = function(event){
   if(event.target.parentNode.className === 'income'){
     const cloneIncomeItem = incomeItems[0].cloneNode(true);
@@ -119,11 +104,7 @@ AppData.prototype.addExpIncBlock = function(event){
       btnExpAdd.style.display = 'none';
     }
   }
-// Вопрос в чем:
-// Грубо говоря, просто переписал две функции в одну, изначально пытался сделать по аналогии с видео, но не вышла.
-// Логика была какая: в переменную записывал часть названия класса, на кнопке которого отрабатывает событие: записывалось или expenses, или income
-// Но суть в том, что тип этой переменной - строка и, когда хотел, например, создать другую переменную, не выходило конвертировать эту строку в название переменной
-// Гуглил, пробовал различные решения, которые там были, но по итогу, ничего не подошло
+
 };
 
 AppData.prototype.getAddExpenses = function () {
@@ -138,7 +119,6 @@ AppData.prototype.getAddExpenses = function () {
 };
 AppData.prototype.getAddIncome = function () {
   const _this = this;
-  console.log(addIncItem);
   addIncItem.forEach((item) => {
     item = item.value.trim();
     if (item.length) {
@@ -172,7 +152,8 @@ AppData.prototype.getExpensesMonth = function () {
   }
 };
 AppData.prototype.getBudget = function () {
-  this.budgetMonth = +this.budget + +this.incomeMonth - +this.expensesMonth;
+  const monthDeposit = this.moneyDeposit * (this.percentDeposit / 100);
+  this.budgetMonth = +this.budget + +this.incomeMonth - +this.expensesMonth + monthDeposit;
   this.budgetDay = Math.floor(this.budgetMonth / 30);
 };
 AppData.prototype.getTargetMonth = function () {
@@ -191,16 +172,22 @@ AppData.prototype.getStatusIncome = function () {
 };
 AppData.prototype.getInfoDeposit = function () {
   if (this.deposit) {
-    this.persentDeposit = prompt('Какой годовой процент?', 10);
-    while (!isNumber(this.persentDeposit)) {
-      this.persentDeposit = prompt('Какой годовой процент?', 10);
-    }
-    this.moneyDeposit = prompt('Какая сумма положена?', 10000);
-    while (!isNumber(this.moneyDeposit)) {
-      this.moneyDeposit = prompt('Какая сумма положена?', 10000);
-    }
+    this.percentDeposit = depositPercent.value;
+    this.moneyDeposit = depositAmount.value;
   }
 };
+
+AppData.prototype.changePercent =  function () {
+  let valueSelect = this.value;
+  if(valueSelect === 'other'){
+    depositPercent.style.display = 'inline-block';
+    
+  } else{
+    depositPercent.value = valueSelect;
+    depositPercent.style.display = 'none';
+  }
+  };
+
 AppData.prototype.calcPeriod = function () {
   return this.budgetMonth * periodSelect.value;
 };
@@ -236,7 +223,7 @@ AppData.prototype.reset = function () {
   this.expenses = {};
   this.expensesMonth = 0;
   this.deposit = false;
-  this.persentDeposit = 0;
+  this.percentDeposit = 0;
   this.moneyDeposit = 0;
   this.addExpenses = [];
 
@@ -244,8 +231,32 @@ AppData.prototype.reset = function () {
   start.style.display = 'block';
   btnExpAdd.removeAttribute('disabled');
   btnIncomeAdd.removeAttribute('disabled');
-  checkBox.checked = 'false';
+  depositCheck.checked = 'false';
 };
+
+AppData.prototype.depositHandler = function () {
+  if(depositCheck.checked){
+    depositAmount.style.display = 'inline-block';
+    depositBank.style.display = 'inline-block';
+    this.deposit = true;
+    depositBank.addEventListener('change', this.changePercent);
+  } else{
+    depositAmount.style.display = 'none';
+    depositBank.style.display = 'none';
+    depositAmount.value = '';
+    depositBank.value = '';
+    depositBank.removeEventListener('change', this.changePercent);
+  }
+  };
+
+
+  // let percentIsNum = function() {
+  //   let countPercent = +depositPercent.value;
+  //   if(countPercent < 1 || countPercent > 100 || isNaN(countPercent)){
+  //     alert('Введите корректное значение в поле проценты');
+  //   }
+  // }
+
 
 AppData.prototype.eventListeners = function () {
   const _this = this;
@@ -265,6 +276,8 @@ AppData.prototype.eventListeners = function () {
       element = element.charAt(0).toUpperCase() + element.substring(1).toLowerCase();
       addExp.push(element);
     };
+
+    depositCheck.addEventListener('change', this.depositHandler.bind(this));
 };
 
 const appData = new AppData();
