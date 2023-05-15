@@ -41,16 +41,17 @@ class AppData {
 };
 
 AppData.prototype.check =  () => {
-  if(salaryAmount.value.length && !isNaN(+depositPercent.value) && +depositPercent.value > 1 && +depositPercent.value < 100){
-    start.removeAttribute('disabled'); // Не убирается аттрибут. С одной проверкой (salaryAmount.value.length) все убиралось, теперь - нет
+  if(salaryAmount.value.length && !isNaN(+depositPercent.value && +depositPercent.value >= 0 || +depositPercent.value <= 100)){
+    start.removeAttribute('disabled');
   }
 };
 
 AppData.prototype.start = function () {
-  if(salaryAmount.value == '' || isNaN(+depositPercent.value) || +depositPercent.value < 1 || +depositPercent.value > 100){
+  if(salaryAmount.value == '' || isNaN(+depositPercent.value) || +depositPercent.value < 0 || +depositPercent.value > 100){
     start.setAttribute('disabled', 'true');
     return;
   }
+
   const allInput = document.querySelectorAll('input[type = text]');
   allInput.forEach((item) => {
     item.setAttribute('disabled', 'true');
@@ -76,7 +77,6 @@ AppData.prototype.start = function () {
 AppData.prototype.showResult = function () {
   const _this = this; // Для того, чтобы в  incPeriodValue.value this смотрел на appData, а не на incPeriodValue
   budgetMonthValue.value = this.budgetMonth;
-  // percentIsNum();
   budgetDayValue.value = this.budgetDay;
   expensesMonthValue.value = this.expensesMonth;
   addExpValue.value = this.addExpenses.join(', '); 
@@ -249,21 +249,13 @@ AppData.prototype.depositHandler = function () {
   }
   };
 
-
-  // let percentIsNum = function() {
-  //   let countPercent = +depositPercent.value;
-  //   if(countPercent < 1 || countPercent > 100 || isNaN(countPercent)){
-  //     alert('Введите корректное значение в поле проценты');
-  //   }
-  // }
-
-
 AppData.prototype.eventListeners = function () {
   const _this = this;
   start.addEventListener('click', _this.start.bind(_this));
   btnExpAdd.addEventListener('click', _this.addExpIncBlock);
   btnIncomeAdd.addEventListener('click', _this.addExpIncBlock);
   salaryAmount.addEventListener('keyup', _this.check);
+  depositPercent.addEventListener('keyup', _this.check);
   cancel.addEventListener('click', _this.reset.bind(_this));
 
   periodSelect.addEventListener('change',  () => {
@@ -279,6 +271,7 @@ AppData.prototype.eventListeners = function () {
 
     depositCheck.addEventListener('change', this.depositHandler.bind(this));
 };
+
 
 const appData = new AppData();
 
