@@ -1,5 +1,5 @@
-let numA = document.querySelector('#a');
-let numB = document.querySelector('#b');
+let numA = document.querySelector('#number__a');
+let numB = document.querySelector('#number__b');
 let showInput = document.querySelector('#res');
 let sumButton = document.querySelector('#sum');
 let multButton = document.querySelector('#mult');
@@ -19,7 +19,7 @@ const calculator = {
   },
   mult: function(a, b){
     if(!isNaN(+a) && !isNaN(+a)&& a && b){
-      this.res = +a * +b;
+      this.res = a * b;
       return this.res;
     } else{
       alert('Введите правильное значение');

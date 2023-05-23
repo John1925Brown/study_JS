@@ -1,5 +1,4 @@
 const cityArr = {
-  test: 'test',
   rus: ['Москва', 'Санк-Петербург', 'Новосибирск', 'Екатеринбург', 'Нижний Новгород', 'Казань', 'Челябинск'],
   uk: ['Киев', 'Харьков', 'Одесса', 'Днепр', 'Донецк', 'Запорожье', 'Львов'],
   bel: ['Минск', 'Гомель', 'Могилёв', 'Витебск', 'Гродно', 'Брест'],
@@ -12,7 +11,7 @@ let resultCity = document.querySelector('.result');
 
 
 country.addEventListener('change', function (e) {
-  if(city.firstChild){
+  if(city && city.firstChild){
     [...city.children].forEach(el => {
       el.remove();
     });
@@ -54,6 +53,3 @@ country.addEventListener('change', function (e) {
 city.addEventListener('change', function () {
   resultCity.textContent = country.options[country.selectedIndex].text + ', ' + city.value;
   })
-
-
-  
