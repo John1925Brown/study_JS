@@ -59,7 +59,7 @@ const toogleMenu = () => {
   let animateInterval;
   let count = 0;
   
-  let menuAnimate = function () { // Изначально в css был transition, закомментил его
+  let menuAnimate = function () { 
     if(count < 100){
       animateInterval = requestAnimationFrame(menuAnimate); 
       count = count + 3;
@@ -112,10 +112,6 @@ togglePopup();
 
 
 // smooth page scrolling
-
-// Реализовал через добавление изменение scrollTop. В ссылке изначально был адрес блока, на который нужно переместиться, я его удалил и поставил заглушку
-// Думал, может как-то можно это сделать, просто добавляя адрес блока, но тогда не будет плавно скроллиться
-// Или можно реализовать это без изменения html? Пытался добавлять preventDefault(с пустым адресом), но все равно не работало
 
 const smoothScrolling = function () {
 let btnScrolling = document.querySelector('#btn__scrolling');
