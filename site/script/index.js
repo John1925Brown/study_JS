@@ -47,7 +47,6 @@ window.addEventListener('DOMContentLoaded', function () {
 
 countTimer('10-june-2023');
 
-
 // Menu
 
 const toogleMenu = () => {
@@ -94,24 +93,28 @@ toogleMenu();
 // popup-window
 const togglePopup = () => {
   const popUp = document.querySelector('.popup');
-  const closeBtn = popUp.querySelector('.popup-close');
   const popUpBtns = document.querySelectorAll('.popup-btn');
 
-  popUpBtns.forEach(item => {
-    item.addEventListener('click', () =>{
-      popUp.style.display = 'block';
-    });
-  });
+document.addEventListener('click', () => {
+    let target = event.target;
+    if(popUp.style.display === 'block'){
+      if(target.classList.contains('popup-close')){
+        popUp.style.display = 'none';
+      } 
+      target = target.closest('.popup-content');
+      if(!target){
+        popUp.style.display = 'none';
+        target = event.target;
+      }
+    }
 
-  closeBtn.addEventListener('click', () => {
-    popUp.style.display = 'none';
-  });
+  if(target.classList.contains('popup-btn')){
+      popUp.style.display = 'block';
+  }
+});
 }
 
 togglePopup();
-
-
-// smooth page scrolling
 
 const smoothScrolling = function () {
 let btnScrolling = document.querySelector('#btn__scrolling');
@@ -135,5 +138,40 @@ btnScrolling.addEventListener('click', () => {
 }
 
 smoothScrolling();
+
+// tabs
+
+const tabs = () => {
+  const tabHeader = document.querySelector('.service-header');
+  const tabs = tabHeader.querySelectorAll('.service-header-tab');
+  const tabContent = document.querySelectorAll('.service-tab');
+
+  const toggleTabContent = (index) => {
+    for (let i = 0; i < tabContent.length; i++) {
+      if(index === i){
+        tabs[i].classList.add('active');
+        tabContent[i].classList.remove('d-none');
+      } else {
+        tabs[i].classList.remove('active');
+        tabContent[i].classList.add('d-none');
+      }
+      
+    }
+  };
+
+  tabHeader.addEventListener('click', (event) => {
+    let target = event.target;
+    target = target.closest('.service-header-tab');
+      if(target){
+        tabs.forEach((item, i) => {
+          if(item === target){
+            toggleTabContent(i);
+          }
+        });
+      }
+    });
+};
+
+tabs();
 
 });
