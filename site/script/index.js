@@ -232,10 +232,6 @@ const sliderFunc = () => {
     event.preventDefault();
     let target = event.target;
 
-    if(!target.matches('.portfolio-btn, .dot')){
-      return;
-    }
-
     prevSlide(slides, currentSlide, 'portfolio-item-active');
     prevSlide(dots, currentSlide, 'dot-active');
 
