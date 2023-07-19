@@ -301,20 +301,19 @@ const inputsValidation = () => {
   // calc inputs validation
   const calcBlock = document.querySelector('.calc-block');
   const calcInputs = calcBlock.querySelectorAll('input');
-  calcInputs.forEach((el) => {
-    el.addEventListener('input', () => {
-      el.value = el.value.replace(/\D/g, '');
+
+  calcBlock.addEventListener('input', (event) => {
+      event.target.value = event.target.value.replace(/\D/g, '');
     });
-  });
 
   // Questions block inputs validation
   const footerInputBlock = document.querySelector('.footer-form-input');
   const footerInputs = footerInputBlock.querySelectorAll('input');
-  footerInputs.forEach((el) => {
-    el.addEventListener('input', (event) => {
+
+    footerInputBlock.addEventListener('input', (event) => {
       let target = event.target;
       if(target.id === 'form2-name'|| target.id === 'form2-message'){ // name, message validation
-        el.value = el.value.replace(/[a-z0-9]/gi, '');
+        target.value = target.value.replace(/[a-z0-9]/gi, '');
       }
       if(target.id === 'form2-email'){
         if(!/^[a-zA-Z0-9@\-_.'!*~]+$/.test(target.value)){ // email validation
@@ -327,25 +326,27 @@ const inputsValidation = () => {
         }
       }
     });
-
     let inputsCorrection = () => {
-      if(/^-/g.test(el.value) || (/^ /g.test(el.value))){ // Удаляет пробелы и тире в начале строки
-        el.value = el.value.slice(1);
-        inputsCorrection();
+      if(/^(-| )/g.test(event.target.value)){ // Удаляет пробелы и тире в начале строки
+        event.target.value = event.target.value.slice(1);
+        inputsCorrection(event.target);
       }
-      if(/-$/g.test(el.value) || (/ $/g.test(el.value))){ // Удаляет пробелы и тире в конце строки
-        el.value = el.value.slice(0, -1);
-        inputsCorrection();
+      
+      if(/(-| )$/g.test(event.target.value)){ // Удаляет пробелы и тире в конце строки
+        event.target.value = event.target.value.slice(0, -1);
+        inputsCorrection(event.target);
       }
-      el.value = el.value.replace(/-{2,}/g, '-'); // Замена нескольких тире на одно
-      el.value = el.value.replace(/ {2,}/g, ' '); // Замена нескольких пробелов на один
-      if(el.id === 'form2-name'){ // Валидация имени
-        let name = el.value[0].toUpperCase() + el.value.slice(1).toLowerCase();
-        el.value = name;
-      }
+      event.target.value = event.target.value.replace(/-{2,}/g, '-'); // Замена нескольких тире на одно
+      event.target.value = event.target.value.replace(/ {2,}/g, ' '); // Замена нескольких пробелов на один
+        if(event.target.id === 'form2-name'){ // Изменение имени на нужный формат
+          let name = event.target.value[0].toUpperCase() + event.target.value.slice(1).toLowerCase();
+          event.target.value = name;
+        }
     }
-    el.addEventListener('blur', inputsCorrection);
-  });
+
+    footerInputs.forEach(el => {
+      el.addEventListener('blur', inputsCorrection);
+    });
 }
 
 inputsValidation();
