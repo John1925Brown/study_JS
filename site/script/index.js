@@ -336,8 +336,7 @@ const inputsValidation = () => {
         event.target.value = event.target.value.slice(0, -1);
         inputsCorrection(event.target);
       }
-      event.target.value = event.target.value.replace(/-{2,}/g, '-'); // Замена нескольких тире на одно
-      event.target.value = event.target.value.replace(/ {2,}/g, ' '); // Замена нескольких пробелов на один
+      event.target.value = event.target.value.replace(/-{2,}/g, '-').replace(/ {2,}/g, ' '); // Замена повторяющихся пробелов и дефисов на один
         if(event.target.id === 'form2-name'){ // Изменение имени на нужный формат
           let name = event.target.value[0].toUpperCase() + event.target.value.slice(1).toLowerCase();
           event.target.value = name;
