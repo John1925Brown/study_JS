@@ -95,7 +95,7 @@ const togglePopup = () => {
   const popUp = document.querySelector('.popup');
   const popUpBtns = document.querySelectorAll('.popup-btn');
 
-document.addEventListener('click', () => {
+document.addEventListener('click', (event) => {
     let target = event.target;
     if(popUp.style.display === 'block'){
       if(target.classList.contains('popup-close')){
@@ -126,9 +126,9 @@ const scrollingFunc = function () {
     scrollingInterval = requestAnimationFrame(scrollingFunc);
     count = count + 25;
     document.documentElement.scrollTop = count;
-    console.log(count);
   } else{
     cancelAnimationFrame(scrollingInterval)
+    count = 0;
   }
 }
 
@@ -183,7 +183,6 @@ const sliderFunc = () => {
   let currentSlide = 0;
   let interval;
   
-  // задание
   const dotsAdd = () => {
     const dotsWrapper = document.querySelector('.portfolio-dots');
 
@@ -197,7 +196,6 @@ const sliderFunc = () => {
   dotsAdd();
 
   let dots = document.querySelectorAll('.dot');
-  // задание
 
   const prevSlide = (elem, index, strClass) => {
     elem[index].classList.remove(strClass);
@@ -275,5 +273,81 @@ const sliderFunc = () => {
 }
 
 sliderFunc();
+
+// ourTeam change images
+
+const ourTeamChangeImages = () => {
+  let teammatesBlock = document.querySelector('#command');
+  teammatesBlock.addEventListener('mouseover', (event) => {
+    let target = event.target;
+    if(target.classList.contains('command__photo')){
+      event.target.alt = event.target.src;
+      event.target.src = event.target.dataset.img;
+    }
+  });
+  teammatesBlock.addEventListener('mouseout', (event) => {
+    let target = event.target;
+    if(target.classList.contains('command__photo')){
+      event.target.src = event.target.alt;
+    }
+  });
+}
+
+ourTeamChangeImages();
+
+// Inputs Validation
+
+const inputsValidation = () => {
+  // calc inputs validation
+  const calcBlock = document.querySelector('.calc-block');
+  const calcInputs = calcBlock.querySelectorAll('input');
+
+  calcBlock.addEventListener('input', (event) => {
+      event.target.value = event.target.value.replace(/\D/g, '');
+    });
+
+  // Questions block inputs validation
+  const footerInputBlock = document.querySelector('.footer-form-input');
+  const footerInputs = footerInputBlock.querySelectorAll('input');
+
+    footerInputBlock.addEventListener('input', (event) => {
+      let target = event.target;
+      if(target.id === 'form2-name'|| target.id === 'form2-message'){ // name, message validation
+        target.value = target.value.replace(/[a-z0-9]/gi, '');
+      }
+      if(target.id === 'form2-email'){
+        if(!/^[a-zA-Z0-9@\-_.'!*~]+$/.test(target.value)){ // email validation
+          target.value = target.value.slice(0, -1);
+        }
+      }
+      if(target.id === 'form2-phone'){ // phone validation
+        if(!/^[0-9\-()+]+$/.test(target.value)){
+          target.value = target.value.slice(0, -1);
+        }
+      }
+    });
+    let inputsCorrection = () => {
+      if(/^(-| )/g.test(event.target.value)){ // Удаляет пробелы и тире в начале строки
+        event.target.value = event.target.value.slice(1);
+        inputsCorrection(event.target);
+      }
+      
+      if(/(-| )$/g.test(event.target.value)){ // Удаляет пробелы и тире в конце строки
+        event.target.value = event.target.value.slice(0, -1);
+        inputsCorrection(event.target);
+      }
+      event.target.value = event.target.value.replace(/-{2,}/g, '-').replace(/ {2,}/g, ' '); // Замена повторяющихся пробелов и дефисов на один
+        if(event.target.id === 'form2-name'){ // Изменение имени на нужный формат
+          let name = event.target.value[0].toUpperCase() + event.target.value.slice(1).toLowerCase();
+          event.target.value = name;
+        }
+    }
+
+    footerInputs.forEach(el => {
+      el.addEventListener('blur', inputsCorrection);
+    });
+}
+
+inputsValidation();
 
 });
