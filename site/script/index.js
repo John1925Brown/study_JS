@@ -301,6 +301,9 @@ const inputsValidation = () => {
   // calc inputs validation
   const calcBlock = document.querySelector('.calc-block');
   const calcInputs = calcBlock.querySelectorAll('input');
+  // document.addEventListener('input', (event) => {
+  //   console.log(event.target.value);
+  // })
 
   calcBlock.addEventListener('input', (event) => {
       event.target.value = event.target.value.replace(/\D/g, '');
@@ -310,17 +313,24 @@ const inputsValidation = () => {
   const footerInputBlock = document.querySelector('.footer-form-input');
   const footerInputs = footerInputBlock.querySelectorAll('input');
 
-    footerInputBlock.addEventListener('input', (event) => {
+    document.addEventListener('input', (event) => {
       let target = event.target;
-      if(target.id === 'form2-name'|| target.id === 'form2-message'){ // name, message validation
-        target.value = target.value.replace(/[a-z0-9]/gi, '');
-      }
-      if(target.id === 'form2-email'){
-        if(!/^[a-zA-Z0-9@\-_.'!*~]+$/.test(target.value)){ // email validation
+      if(target.classList.contains('form-name')){ 
+        if(!/^[а-яА-ЯёЁ\ ]+$/.test(target.value)){
           target.value = target.value.slice(0, -1);
         }
       }
-      if(target.id === 'form2-phone'){ // phone validation
+      if(target.id === 'form2-message'){
+        if(!/^[\W0-9s]+$/.test(target.value)){
+          target.value = target.value.slice(0, -1);
+        }
+      }
+      if(target.classList.contains('form-email')){
+        if(!/^[a-zA-Z0-9@\-_.'!*~]+$/.test(target.value)){
+          target.value = target.value.slice(0, -1);
+        }
+      }
+      if(target.classList.contains('form-phone')){
         if(!/^[0-9\-()+]+$/.test(target.value)){
           target.value = target.value.slice(0, -1);
         }
@@ -408,18 +418,19 @@ const setForm = () => {
   const loadMessage = 'Загрузка...'
   const sucsessMessage = 'Спасибо! Мы скоро с вами свяжемся';
 
-  const form = document.querySelector('#form1');
-  console.log('12');
-
   let statusMessage = document.createElement('div');
   statusMessage.style.cssText = 'font-size: 2rem';
 
-  form.addEventListener('submit', (e) => {
+  document.addEventListener('submit', (e) => {
+    let target = e.target;
+    let inputs = target.querySelectorAll('input');
+    if(target.tagName === 'FORM'){
+    
     e.preventDefault();
-    form.appendChild(statusMessage);
+    target.appendChild(statusMessage);
     statusMessage.textContent = loadMessage;
 
-    const formData = new FormData(form);
+    const formData = new FormData(target);
     let body = {};
 
     // for(let val of formData.entries()){
@@ -428,13 +439,19 @@ const setForm = () => {
     formData.forEach((val, key) => {
       body[key] = val;
     });
-
     postData(body, () => {
+      inputs.forEach(e => {
+        e.value = '';
+      });
       statusMessage.textContent = sucsessMessage;
     }, (error) => {
+      inputs.forEach(e => {
+        e.value = '';
+      });
       console.error(error);
       statusMessage.textContent = errorMessage;
     });
+  }
   });
 
   const postData = (body, outputData, errorData) => {
@@ -454,11 +471,8 @@ const setForm = () => {
     request.open('POST', 'server.php');
     request.setRequestHeader('Content-Type', 'multipart/application/json');
 
-
     request.send(JSON.stringify(body));
   }
 }
-
 setForm();
-
 });
