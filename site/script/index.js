@@ -301,9 +301,6 @@ const inputsValidation = () => {
   // calc inputs validation
   const calcBlock = document.querySelector('.calc-block');
   const calcInputs = calcBlock.querySelectorAll('input');
-  // document.addEventListener('input', (event) => {
-  //   console.log(event.target.value);
-  // })
 
   calcBlock.addEventListener('input', (event) => {
       event.target.value = event.target.value.replace(/\D/g, '');
@@ -417,39 +414,45 @@ const setForm = () => {
   const errorMessage = 'Что-то пошло не так...';
   const loadMessage = 'Загрузка...'
   const sucsessMessage = 'Спасибо! Мы скоро с вами свяжемся';
+  let statusMessage = document.createElement('section');
 
-  let statusMessage = document.createElement('div');
-  statusMessage.style.cssText = 'font-size: 2rem';
-
+  statusMessage.innerHTML = `
+  <section>
+    <div class='sk-spinner sk-spinner-pulse'></div>
+  </section>
+`
   document.addEventListener('submit', (e) => {
     let target = e.target;
     let inputs = target.querySelectorAll('input');
     if(target.tagName === 'FORM'){
-    
-    e.preventDefault();
-    target.appendChild(statusMessage);
-    statusMessage.textContent = loadMessage;
+      if(target.id === 'form3'){
+        statusMessage.style.color = 'white';
+      }
 
-    const formData = new FormData(target);
-    let body = {};
+      e.preventDefault();
+      target.appendChild(statusMessage);
 
-    // for(let val of formData.entries()){
-    //   body[val[0]] = val[1];
-    // }
-    formData.forEach((val, key) => {
-      body[key] = val;
-    });
-    postData(body, () => {
-      inputs.forEach(e => {
-        e.value = '';
+      const formData = new FormData(target);
+      let body = {};
+
+      // for(let val of formData.entries()){
+      //   body[val[0]] = val[1];
+      // }
+      formData.forEach((val, key) => {
+        body[key] = val;
       });
+      
+      postData(body, () => {
+        inputs.forEach(e => {
+          e.value = '';
+        });
       statusMessage.textContent = sucsessMessage;
-    }, (error) => {
-      inputs.forEach(e => {
-        e.value = '';
-      });
-      console.error(error);
-      statusMessage.textContent = errorMessage;
+      }, (error) => {
+        inputs.forEach(e => {
+          e.value = '';
+        });
+        console.error(error);
+        statusMessage.textContent = errorMessage;
     });
   }
   });
