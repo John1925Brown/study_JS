@@ -414,16 +414,11 @@ const setForm = () => {
   const errorMessage = 'Что-то пошло не так...';
   const loadMessage = 'Загрузка...'
   const sucsessMessage = 'Спасибо! Мы скоро с вами свяжемся';
-  let statusMessage = document.createElement('section');
+  let statusMessage = document.createElement('div');
+  statusMessage.classList.add('preloader');
 
-  statusMessage.innerHTML = `
-  <section>
-    <div class='sk-spinner sk-spinner-pulse'></div>
-  </section>
-`
   document.addEventListener('submit', (e) => {
     let target = e.target;
-    let inputs = target.querySelectorAll('input');
     if(target.tagName === 'FORM'){
       if(target.id === 'form3'){
         statusMessage.style.color = 'white';
@@ -443,14 +438,12 @@ const setForm = () => {
       });
       
       postData(body, () => {
-        inputs.forEach(e => {
-          e.value = '';
-        });
+        target.reset();
+
+        statusMessage.classList.remove('preloader');
       statusMessage.textContent = sucsessMessage;
       }, (error) => {
-        inputs.forEach(e => {
-          e.value = '';
-        });
+        statusMessage.classList.remove('preloader');
         console.error(error);
         statusMessage.textContent = errorMessage;
     });
