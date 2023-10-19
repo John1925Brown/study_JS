@@ -416,39 +416,39 @@ const setForm = () => {
   const sucsessMessage = 'Спасибо! Мы скоро с вами свяжемся';
   let statusMessage = document.createElement('div');
   statusMessage.classList.add('preloader');
-
-  document.addEventListener('submit', (e) => {
-    let target = e.target;
-    if(target.tagName === 'FORM'){
-      if(target.id === 'form3'){
-        statusMessage.style.color = 'white';
-      }
-
+  const forms = Array.from(document.querySelectorAll('form'));
+  forms.forEach((form) => {
+    form.addEventListener('submit', (e) => {
+      let target = e.target;
       e.preventDefault();
-      target.appendChild(statusMessage);
-
-      const formData = new FormData(target);
-      let body = {};
-
-      // for(let val of formData.entries()){
-      //   body[val[0]] = val[1];
-      // }
-      formData.forEach((val, key) => {
-        body[key] = val;
+      if(target.tagName === 'FORM'){
+        if(target.id === 'form3'){
+          statusMessage.style.color = 'white';
+        }
+        
+        target.appendChild(statusMessage);
+  
+        const formData = new FormData(target);
+        let body = {};
+  
+        formData.forEach((val, key) => {
+          body[key] = val;
+        });
+        
+        postData(body, () => {
+          target.reset();
+  
+          statusMessage.classList.remove('preloader');
+        statusMessage.textContent = sucsessMessage;
+        }, (error) => {
+          statusMessage.classList.remove('preloader');
+          console.error(error);
+          statusMessage.textContent = errorMessage;
       });
-      
-      postData(body, () => {
-        target.reset();
-
-        statusMessage.classList.remove('preloader');
-      statusMessage.textContent = sucsessMessage;
-      }, (error) => {
-        statusMessage.classList.remove('preloader');
-        console.error(error);
-        statusMessage.textContent = errorMessage;
+    }
     });
-  }
-  });
+  })
+
 
   const postData = (body, outputData, errorData) => {
     const request = new XMLHttpRequest();
@@ -465,7 +465,7 @@ const setForm = () => {
     });
 
     request.open('POST', 'server.php');
-    request.setRequestHeader('Content-Type', 'multipart/application/json');
+    request.setRequestHeader('Content-Type', 'application/json');
 
     request.send(JSON.stringify(body));
   }
