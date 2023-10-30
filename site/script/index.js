@@ -413,15 +413,16 @@ window.addEventListener("DOMContentLoaded", function () {
 
   const setForm = () => {
     const errorMessage = "Что-то пошло не так...";
-    const loadMessage = "Загрузка...";
     const sucsessMessage = "Спасибо! Мы скоро с вами свяжемся";
     let statusMessage = document.createElement("div");
     statusMessage.classList.add("preloader");
     const forms = Array.from(document.querySelectorAll("form"));
+
     forms.forEach((form) => {
       form.addEventListener("submit", (e) => {
         let target = e.target;
         e.preventDefault();
+
         if (target.tagName === "FORM") {
           if (target.id === "form3") {
             statusMessage.style.color = "white";
@@ -436,43 +437,42 @@ window.addEventListener("DOMContentLoaded", function () {
             body[key] = val;
           });
 
-          postData(
-            body,
-            () => {
+          postData(body)
+            .then(() => {
               target.reset();
 
               statusMessage.classList.remove("preloader");
               statusMessage.textContent = sucsessMessage;
-            },
-            (error) => {
+            })
+            .catch((err) => {
               statusMessage.classList.remove("preloader");
-              console.error(error);
+              console.error(err);
               statusMessage.textContent = errorMessage;
-            }
-          );
+            });
         }
       });
     });
 
-    const postData = (body, outputData, errorData) => {
-      const request = new XMLHttpRequest();
+    const postData = (body) => {
+      return new Promise((resolve, reject) => {
+        const request = new XMLHttpRequest();
+        request.addEventListener("readystatechange", () => {
+          if (request.readyState !== 4) {
+            return;
+          }
+          if (request.status === 200) {
+            resolve(body);
+          } else {
+            reject(request.statusText);
+          }
+        });
 
-      request.addEventListener("readystatechange", () => {
-        if (request.readyState !== 4) {
-          return;
-        }
-        if (request.status === 200) {
-          outputData();
-        } else {
-          errorData(request.status);
-        }
+        request.open("POST", "server.php");
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(JSON.stringify(body));
       });
-
-      request.open("POST", "server.php");
-      request.setRequestHeader("Content-Type", "application/json");
-
-      request.send(JSON.stringify(body));
     };
   };
+
   setForm();
 });
