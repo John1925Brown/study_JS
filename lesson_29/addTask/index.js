@@ -1,64 +1,55 @@
 const form = document.querySelector(".form");
-
 const usd = document.querySelector(".input__usd");
 const eur = document.querySelector(".input__eur");
-
-const usdRadio = document.querySelector("#usd");
-const eurRadio = document.querySelector("#eur");
-
+const usdRadio = document.querySelector(".usd");
+const eurRadio = document.querySelector(".eur");
 const button = document.querySelector(".btn");
+const url = "http://api.currencylayer.com/";
 
-let url = "http://api.exchangeratesapi.io/v1/";
+form.addEventListener("change", (e) => {
+  if (e.target === eurRadio) {
+    eur.disabled = false;
+    usd.disabled = true;
+  }
+  if (e.target === usdRadio) {
+    eur.disabled = true;
+    usd.disabled = false;
+  }
+});
 
-function params(paramsObj) {
+function getParams(paramsObj) {
   return new URLSearchParams({
-    access_key: "851e121f750e007626ba0b42d7a468af",
+    access_key: "f7fcedaeccaa01e4d20ff0203d4ff215",
     ...paramsObj,
   });
 }
 
-function getLatest(options) {
-  fetch(`${url}/latest?${params(options)}`)
-    .then((reponse) => {
-      return reponse.json();
+function eurToUsd(options) {
+  fetch(`${url}live?${getParams(options)}`)
+    .then((response) => {
+      return response.json();
     })
     .then((response) => {
-      console.log(response);
+      usd.value = response.quotes.EURUSD * eur.value;
     });
 }
 
-getLatest();
+function usdToEur(options) {
+  fetch(`${url}live?${getParams(options)}`)
+    .then((response) => {
+      return response.json();
+    })
+    .then((response) => {
+      eur.value = response.quotes.USDEUR * usd.value;
+    });
+}
 
-// form.addEventListener('change', (e) => { // Отвечает за переключение заглушек и радио
-//   if(e.target === eurRadio){ // EUR => USD
-//     eur.disabled = false;
-//     usd.disabled = true;
-
-//   }
-//   if(e.target === usdRadio){ // USD => EUR
-//     eur.disabled = true;
-//     usd.disabled = false;
-//   }
-// });
-
-// form.addEventListener('submit', (event) => {
-//   event.preventDefault();
-
-//   countFunc()
-//   .then(responce => {
-//     if(responce.status !== 200){
-//       throw  new Error(`Не удалось, ответ: ${responce.status}`);
-//     }
-//     return responce.json();
-//   })
-//   .then(responce => {
-//     console.log(responce);
-//   })
-//   .catch(err => {
-//     console.error(err);
-//   })
-// })
-
-// const countFunc = () => {
-//   return fetch('http://api.exchangeratesapi.io/v1/latest?851e121f750e007626ba0b42d7a468af');
-// };
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  if (eurRadio.checked) {
+    eurToUsd({ source: "EUR" });
+  }
+  if (usdRadio.checked) {
+    usdToEur({ source: "USD" });
+  }
+});
