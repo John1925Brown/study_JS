@@ -4,17 +4,17 @@ const eur = document.querySelector(".input__eur");
 const usdRadio = document.querySelector(".usd");
 const eurRadio = document.querySelector(".eur");
 const button = document.querySelector(".btn");
+const formInputs = Array.from(document.querySelectorAll("input[type=text]"));
 const url = "http://api.currencylayer.com/";
 
 form.addEventListener("change", (e) => {
-  if (e.target === eurRadio) {
-    eur.disabled = false;
-    usd.disabled = true;
-  }
-  if (e.target === usdRadio) {
-    eur.disabled = true;
-    usd.disabled = false;
-  }
+  formInputs.forEach((elem) => {
+    if (elem.classList.value === `input__${e.target.value}`) {
+      elem.disabled = false;
+    } else {
+      elem.disabled = true;
+    }
+  });
 });
 
 function getParams(paramsObj) {
