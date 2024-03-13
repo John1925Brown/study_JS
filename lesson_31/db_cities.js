@@ -287,7 +287,6 @@ const data = {
 };
 
 const listDefault = document.querySelector(".dropdown-lists__list--default");
-const listDefaultColumn = document.querySelector(".dropdown-lists__col");
 const listSelect = document.querySelector(".dropdown-lists__list--select");
 const listAutoComplete = document.querySelector(
   ".dropdown-lists__list--autocomplete"
@@ -297,20 +296,25 @@ const input = document.querySelector("input");
 // Открытие списка default
 input.addEventListener("click", () => {
   listDefault.style.display = "block";
+  listSelect.style.display = "none";
+  listAutoComplete.style.display = "none";
+  deleteListSelect();
+  deleteListDefault();
+  addListDefault();
 });
 
 // Создание списка default
 const addListDefault = () => {
   data.RU.forEach((elem) => {
-    createDefault(elem.country, elem.count, elem.cities);
+    createListDefault(elem.country, elem.count, elem.cities);
   });
 };
 
 // Создание списка default
-const createDefault = (country, count, cities) => {
+const createListDefault = (country, count, cities) => {
   let newBlock = document.createElement("div");
   newBlock.classList.add("dropdown-lists__countryBlock");
-  listDefaultColumn.append(newBlock);
+  listDefault.append(newBlock);
 
   let newTotalLine = document.createElement("div");
   newTotalLine.classList.add("dropdown-lists__total-line");
@@ -329,12 +333,64 @@ const createDefault = (country, count, cities) => {
   cities.sort((a, b) => {
     return b.count - a.count;
   });
-  cities.length = 3;
+
+  for (let i = 0; i < 3; i++) {
+    let newListLine = document.createElement("div");
+    newListLine.classList.add("dropdown-lists__line");
+    newBlock.append(newListLine);
+
+    let newCityName = document.createElement("div");
+    newCityName.classList.add("dropdown-lists__city");
+    newCityName.textContent = cities[i].name;
+    newListLine.append(newCityName);
+
+    let newCityCount = document.createElement("div");
+    newCityCount.classList.add("dropdown-lists__count");
+    newCityCount.textContent = cities[i].count;
+    newListLine.append(newCityCount);
+  }
+};
+
+// Открытие списка select
+listDefault.addEventListener("click", (e) => {
+  if (e.target.classList.contains("dropdown-lists__total-line")) {
+    let nameCountry = e.target.textContent.replace(/[0-9]/g, "");
+    data.RU.forEach((elem) => {
+      if (elem.country === nameCountry) {
+        listDefault.style.display = "none";
+        listAutoComplete.style.display = "none";
+        listSelect.style.display = "block";
+        createListSelect(elem.country, elem.count, elem.cities);
+      }
+    });
+  }
+});
+
+// Создание списка select
+const createListSelect = (country, count, cities) => {
+  let newBlock = document.createElement("div");
+  newBlock.classList.add("dropdown-lists__countryBlock");
+  listSelect.append(newBlock);
+
+  let newTotalLine = document.createElement("div");
+  newTotalLine.classList.add("dropdown-lists__total-line");
+  newBlock.append(newTotalLine);
+
+  let newCountryName = document.createElement("div");
+  newCountryName.classList.add("dropdown-lists__country");
+  newCountryName.textContent = country;
+  newTotalLine.append(newCountryName);
+
+  let newCountryCount = document.createElement("div");
+  newCountryCount.classList.add("dropdown-lists__count");
+  newCountryCount.textContent = count;
+  newTotalLine.append(newCountryCount);
 
   cities.forEach((city) => {
     let newListLine = document.createElement("div");
     newListLine.classList.add("dropdown-lists__line");
     newBlock.append(newListLine);
+
     let newCityName = document.createElement("div");
     newCityName.classList.add("dropdown-lists__city");
     newCityName.textContent = city.name;
@@ -347,6 +403,22 @@ const createDefault = (country, count, cities) => {
   });
 };
 
+// Функция очистки списка select
+const deleteListSelect = () => {
+  listSelect.textContent = "";
+};
 
+// Функция очистки списка default
+const deleteListDefault = () => {
+  listDefault.textContent = "";
+};
 
-addListDefault();
+// Очистка и скрытие списка select(переключение на список default)
+listSelect.addEventListener("click", (e) => {
+  if (e.target.classList.contains("dropdown-lists__total-line")) {
+    deleteListSelect();
+    listSelect.style.display = "none";
+    addListDefault();
+    listDefault.style.display = "block";
+  }
+});
