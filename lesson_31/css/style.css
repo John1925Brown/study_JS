@@ -1,6 +1,6 @@
 * {
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
   list-style-type: none;
@@ -11,7 +11,7 @@ input:focus {
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 400;
 }
 
@@ -21,11 +21,17 @@ body .main {
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  background: #00416A;
-  background: -webkit-gradient(linear, left top, left bottom, from(#00416A), to(#E4E5E6));
-  background: linear-gradient(to bottom, #00416A, #E4E5E6);
+  -ms-flex-pack: center;
+  justify-content: center;
+  background: #00416a;
+  background: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(#00416a),
+    to(#e4e5e6)
+  );
+  background: linear-gradient(to bottom, #00416a, #e4e5e6);
 }
 
 body .main .input-cities {
@@ -45,13 +51,13 @@ body .main .input-cities #select-cities {
   width: 100%;
   height: 100%;
   font-size: 18px;
-  color: #00416A;
+  color: #00416a;
 }
 
 body .main .input-cities #select-cities:focus ~ .label {
   top: -25px;
   left: 0;
-  color: #00416A;
+  color: #00416a;
 }
 
 body .main .input-cities .close-button {
@@ -73,17 +79,17 @@ body .main .input-cities .close-button:before {
   left: 16px;
   width: 20px;
   height: 3px;
-  background-color: #00416A;
+  background-color: #00416a;
 }
 
 body .main .input-cities .close-button:after {
   -webkit-transform: rotate(45deg);
-          transform: rotate(45deg);
+  transform: rotate(45deg);
 }
 
 body .main .input-cities .close-button:before {
   -webkit-transform: rotate(-45deg);
-          transform: rotate(-45deg);
+  transform: rotate(-45deg);
 }
 
 body .main .input-cities label {
@@ -97,11 +103,11 @@ body .main .input-cities label {
   width: 100%;
   max-width: 290px;
   height: 55px;
-  background: #00416A;
+  background: #00416a;
   display: block;
   text-align: center;
   padding-top: 18px;
-  color: #E4E5E6;
+  color: #e4e5e6;
   text-decoration: none;
   border-radius: 7px;
   margin: 15px auto;
@@ -110,8 +116,8 @@ body .main .input-cities label {
 
 .button:hover {
   background: #00609d;
-  -webkit-transition: all .5s ease;
-  transition: all .5s ease;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
 }
 
 .dropdown {
@@ -131,6 +137,9 @@ body .main .input-cities label {
 .dropdown-lists__list {
   width: 100%;
 }
+.dropdown-lists__list--default {
+  display: none;
+}
 
 .dropdown-lists__list--select {
   display: none;
@@ -140,13 +149,14 @@ body .main .input-cities label {
   display: none;
 }
 
-.dropdown-lists__total-line, .dropdown-lists__line {
+.dropdown-lists__total-line,
+.dropdown-lists__line {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
   padding: 5px 15px;
   cursor: pointer;
 }
@@ -176,7 +186,7 @@ body .main .input-cities label {
   left: 0;
   width: 0;
   height: 2px;
-  background-color: #00416A;
+  background-color: #00416a;
   -webkit-transition: 0.3s;
   transition: 0.3s;
 }
@@ -196,7 +206,7 @@ body .main .input-cities label {
   left: 0;
   width: 2px;
   height: 0;
-  background-color: #00416A;
+  background-color: #00416a;
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
