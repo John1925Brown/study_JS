@@ -295,16 +295,18 @@ const input = document.querySelector("input");
 
 // Открытие списка default
 input.addEventListener("click", () => {
-  listDefault.style.display = "block";
-  listSelect.style.display = "none";
-  listAutoComplete.style.display = "none";
-  deleteListSelect();
-  deleteListDefault();
   addListDefault();
 });
 
 // Создание списка default
 const addListDefault = () => {
+  listDefault.style.display = "block";
+  listSelect.style.display = "none";
+  listAutoComplete.style.display = "none";
+  deleteListSelect();
+  deleteListDefault();
+  deleteAutoComplete();
+
   data.RU.forEach((elem) => {
     createListDefault(elem.country, elem.count, elem.cities);
   });
@@ -413,6 +415,11 @@ const deleteListDefault = () => {
   listDefault.textContent = "";
 };
 
+// Функция очистки списка autoComplete
+const deleteAutoComplete = () => {
+  listAutoComplete.textContent = "";
+};
+
 // Очистка и скрытие списка select(переключение на список default)
 listSelect.addEventListener("click", (e) => {
   if (e.target.classList.contains("dropdown-lists__total-line")) {
@@ -422,3 +429,56 @@ listSelect.addEventListener("click", (e) => {
     listDefault.style.display = "block";
   }
 });
+
+input.addEventListener("input", (e) => {
+  deleteAutoComplete();
+  listDefault.style.display = "none";
+  listSelect.style.display = "none";
+  listAutoComplete.style.display = "block";
+
+  let allListCities = [];
+
+  data.RU.forEach((elem) => {
+    allListCities.push(...elem.cities);
+  });
+
+  addListAutoComplete(allListCities);
+});
+
+const addListAutoComplete = (cities) => {
+  let checkedCities = [];
+
+  cities.forEach((city) => {
+    let newBlock = document.createElement("div");
+    newBlock.classList.add("dropdown-lists__countryBlock");
+    listAutoComplete.append(newBlock);
+
+    if (
+      city.name.toLowerCase().includes(input.value.toLowerCase()) &&
+      input.value
+    ) {
+      checkedCities.push(city);
+
+      let newListLine = document.createElement("div");
+      newListLine.classList.add("dropdown-lists__line");
+      newBlock.append(newListLine);
+
+      let newCityName = document.createElement("div");
+      newCityName.classList.add("dropdown-lists__city");
+      newCityName.textContent = city.name;
+      newListLine.append(newCityName);
+
+      let newCityCount = document.createElement("div");
+      newCityCount.classList.add("dropdown-lists__count");
+      newCityCount.textContent = city.count;
+      newListLine.append(newCityCount);
+    }
+  });
+
+  if (!checkedCities.length && input.value) {
+    listAutoComplete.textContent = "Ничего не найдено";
+  }
+  if (!input.value) {
+    addListDefault();
+  }
+};
