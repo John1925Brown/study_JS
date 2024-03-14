@@ -292,6 +292,20 @@ const listAutoComplete = document.querySelector(
   ".dropdown-lists__list--autocomplete"
 );
 const input = document.querySelector("input");
+const label = document.querySelector(".label");
+const closeBtn = document.querySelector(".close-button");
+const linkBtn = document.querySelector(".button");
+
+const allCities = [];
+
+// Думаю, не самый лучший подход, но другого не придумал. Для того, чтобы достать ссылки из городов, пришлось бы использовать цикл в цикле
+const addAllCities = () => {
+  data.RU.forEach((elem) => {
+    allCities.push(...elem.cities);
+  });
+};
+
+addAllCities();
 
 // Открытие списка default
 input.addEventListener("click", () => {
@@ -430,21 +444,23 @@ listSelect.addEventListener("click", (e) => {
   }
 });
 
+// Создание списка autoComplete
 input.addEventListener("input", (e) => {
+  if (input.value) {
+    closeBtn.style.display = "block";
+  } else {
+    linkBtn.href = '#';
+    closeBtn.style.display = "none";
+  }
   deleteAutoComplete();
   listDefault.style.display = "none";
   listSelect.style.display = "none";
   listAutoComplete.style.display = "block";
 
-  let allListCities = [];
-
-  data.RU.forEach((elem) => {
-    allListCities.push(...elem.cities);
-  });
-
-  addListAutoComplete(allListCities);
+  addListAutoComplete(allCities);
 });
 
+// Создание списка autoComplete
 const addListAutoComplete = (cities) => {
   let checkedCities = [];
 
@@ -482,3 +498,40 @@ const addListAutoComplete = (cities) => {
     addListDefault();
   }
 };
+
+// Вывод названия города в инпут при клике
+document.addEventListener("click", (e) => {
+  if (
+    e.target.classList.contains("dropdown-lists__line") ||
+    e.target.classList.contains("dropdown-lists__city")
+  ) {
+    input.value = e.target.textContent.replace(/[0-9]/g, "");
+    closeBtn.style.display = "block";
+
+    allCities.forEach((city) => {
+      if (city.name === input.value) {
+        linkBtn.href = city.link;
+      }
+    });
+  }
+  changeLabel();
+});
+
+// Изменение позиции лейбла(в css меняет позицию только при фокусе, если не поменять, при клике на город, будет поверх значения в инпуте)
+const changeLabel = () => {
+  if (input.value) {
+    label.style.top = "-25px";
+    label.style.left = "0";
+    label.style.color = "#00416a";
+  }
+};
+
+// События по клику на крестик в инпут
+closeBtn.addEventListener("click", () => {
+  deleteListSelect();
+  deleteListDefault();
+  deleteAutoComplete();
+  input.value = "";
+  closeBtn.style.display = "none";
+  linkBtn.href = "#";
+});
